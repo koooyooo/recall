@@ -1,10 +1,14 @@
 meta:
-  deck: "SDI Core"
+  deck:
+    ja: "SDI コア"
+    en: "SDI Core"
   lang: "ja"
 cards:
   - id: lsm-tree
-    term: "LSM-Tree"
-    definition: "メモリ→SSTableへまとめ書き＋バックグラウンドのコンパクションで整頓する書き込み最適型の木構造。Bigtable/Cassandra/HBase/RocksDBが採用。"
+    term:
+      ja: "LSM-Tree"
+      en: "LSM-Tree"
+    definition: "LSM-Treeは、メモリ→SSTableへまとめ書き＋バックグラウンドのコンパクションで整頓する書き込み最適型の木構造です。"
     long-description: "Log-Structured Merge-Tree (LSM-Tree) は、書き込みスループットを最大化するために設計されたデータ構造です。書き込みはまずメモリ上のソート済みテーブル（MemTable）に対して行われ、これが一定サイズに達すると、ディスク上の不変なファイル（SSTable）としてフラッシュされます。バックグラウンドでこれらのSSTableをマージ（コンパクション）することで、データの整理と読み取り効率の維持を図ります。読み取り時には複数のSSTableを検索する必要があるため、Bloom Filterなどの補助的なデータ構造がよく使われます。特に書き込みが多いワークロード（ログ記録、時系列データなど）に優れており、ストレージの効率性と耐久性を両立させます。"
     tags: [db, storage, nosql]
     notes:
@@ -16,8 +20,10 @@ cards:
       - "https://en.wikipedia.org/wiki/Log-structured_merge-tree"
 
   - id: b-tree
-    term: "B-Tree"
-    definition: "RDBのインデックスで主流の木構造。範囲検索が得意だが、小さなランダム書き込みが多いと不利。"
+    term:
+      ja: "B-Tree"
+      en: "B-Tree"
+    definition: "B-Treeは、RDBのインデックスで主流の木構造です。"
     long-description: "B-Treeは、データがソートされた状態で格納されており、特定のキー値や範囲を効率的に検索するのに適しています。階層的な構造を持ち、各ノードが多数の子ノードを持つことができるため、ディスクI/Oの回数を最小限に抑えることができます。バランスの取れた木構造を維持するため、挿入や削除時にはノードの分割やマージが発生し、これがランダム書き込みのパフォーマンスに影響を与える可能性があります。リレーショナルデータベースのインデックスとして広く採用されており、特に読み取り性能と範囲検索に強みがあります。"
     tags: [db, rdb]
     notes:
@@ -29,8 +35,10 @@ cards:
       - "https://en.wikipedia.org/wiki/B-tree"
 
   - id: bigtable
-    term: "Cloud Bigtable"
-    definition: "GCPのワイドカラムNoSQL。LSM系。単一キー読み書きが速く、時系列・巨大KVに最適。JOIN/二次索引なし。"
+    term:
+      ja: "Cloud Bigtable"
+      en: "Cloud Bigtable"
+    definition: "Cloud Bigtableは、GCPのワイドカラムNoSQLです。"
     long-description: "Cloud Bigtableは、Googleの内部的なNoSQLデータベースであるBigtableをベースにしたマネージドサービスです。ペタバイト級のデータを扱うことができ、一貫して高いスループットと低いレイテンシを提供します。行キー、列ファミリー、タイムスタンプの3次元でデータを管理する疎なテーブル構造が特徴で、分析や時系列データ、IoTのバックエンドなどに利用されます。LSM-Treeを基盤としており、書き込み性能に優れ、大規模なデータセットに対するリアルタイム分析や運用データストアとして活用されます。"
     tags: [gcp, storage, nosql]
     notes:
@@ -43,8 +51,10 @@ cards:
       - "https://github.com/googleapis/python-bigtable"
 
   - id: firestore
-    term: "Firestore"
-    definition: "JSONドキュメント型NoSQL。柔軟クエリと開発生産性が強み。大規模・低レイテンシはBigtableに劣る。"
+    term:
+      ja: "Firestore"
+      en: "Firestore"
+    definition: "Firestoreは、JSONドキュメント型NoSQLです。"
     long-description: "Firestoreは、モバイルおよびWebアプリケーション開発者向けの柔軟でスケーラブルなNoSQLドキュメントデータベースです。リアルタイム同期機能を持ち、オフラインモードもサポートしているため、クライアント側での開発が容易になります。SQLライクな豊富なクエリが可能ですが、その分、大規模なデータセットに対するパフォーマンスはBigtableのような特化型DBに劣る場合があります。サーバーレスアプリケーションのバックエンドや、リアルタイム性の高い共同作業アプリケーションなどに適しています。"
     tags: [gcp, storage, nosql]
     notes:
@@ -57,8 +67,10 @@ cards:
       - "https://github.com/firebase/firebase-js-sdk"
 
   - id: cloud-sql
-    term: "Cloud SQL"
-    definition: "マネージドRDB(Postgres/MySQL等)。小〜中規模向け。単一プライマリで水平ライト不可。"
+    term:
+      ja: "Cloud SQL"
+      en: "Cloud SQL"
+    definition: "Cloud SQLは、マネージドRDBです。"
     long-description: "Cloud SQLは、MySQL, PostgreSQL, SQL Serverの完全マネージドなリレーショナルデータベースサービスです。バックアップ、レプリケーション、パッチ適用、自動フェイルオーバーなどの煩雑な管理タスクを自動化します。一般的なウェブアプリケーションやCMSのバックエンドとして広く利用されますが、書き込み性能は単一のプライマリインスタンスに律速されるため、大規模な書き込み負荷には限界があります。小規模から中規模のアプリケーションや、既存のリレーショナルデータベースからの移行に適しています。"
     tags: [gcp, rdb]
     notes:
@@ -70,8 +82,10 @@ cards:
       - "https://cloud.google.com/sql"
 
   - id: alloydb
-    term: "AlloyDB for PostgreSQL"
-    definition: "Postgres互換の強化RDB。分散ストレージ＋カラムナキャッシュで高性能。ライトは単一プライマリ。"
+    term:
+      ja: "AlloyDB for PostgreSQL"
+      en: "AlloyDB for PostgreSQL"
+    definition: "AlloyDB for PostgreSQLは、Postgres互換の強化RDBです。"
     long-description: "AlloyDBは、標準のPostgreSQLと比較して、特にトランザクション処理と分析クエリの両方で大幅な性能向上を実現したフルマネージドサービスです。ストレージ層がインテリジェントに分離されており、ログ処理を専用サービスにオフロードすることで書き込み効率を高めています。また、機械学習を活用したインメモリ列指向キャッシュにより、分析クエリを高速化します。PostgreSQLとの高い互換性を維持しつつ、エンタープライズワークロードに対応するスケーラビリティと信頼性を提供します。"
     tags: [gcp, rdb, htap]
     notes:
@@ -83,8 +97,10 @@ cards:
       - "https://cloud.google.com/alloydb"
 
   - id: spanner
-    term: "Cloud Spanner"
-    definition: "NewSQL分散RDB。強整合トランザクションと水平スケール。TrueTimeでグローバル整合。"
+    term:
+      ja: "Cloud Spanner"
+      en: "Cloud Spanner"
+    definition: "Cloud Spannerは、NewSQL分散RDBです。"
     long-description: "Cloud Spannerは、リレーショナルデータベースのスキーマとACIDトランザクションの利点と、NoSQLデータベースの水平スケーラビリティを両立させた、世界規模で分散可能なデータベースです。GoogleのTrueTime APIを利用して、地理的に分散したノード間でも外部整合性のあるトランザクションを保証します。金融サービスやグローバルなオンラインゲームなど、高い一貫性と可用性が求められるシステムに最適です。グローバルに分散されたデータでも、単一のデータベースとして扱えるのが最大の特徴です。"
     tags: [gcp, rdb, distributed]
     notes:
@@ -96,8 +112,10 @@ cards:
       - "https://cloud.google.com/spanner"
 
   - id: bigquery
-    term: "BigQuery"
-    definition: "サーバレスDWH。大規模集計用。OLTPや低レイテンシKVには不向き。"
+    term:
+      ja: "BigQuery"
+      en: "BigQuery"
+    definition: "BigQueryは、サーバレスDWHです。"
     long-description: "BigQueryは、ペタバイト規模のデータに対して超高速なSQLクエリを実行できる、フルマネージドのデータウェアハウスです。コンピューティングとストレージが分離したアーキテクチャを持ち、ユーザーはインフラ管理を意識することなく分析に集中できます。ストリーミング取り込みにも対応しており、リアルタイムなデータ分析基盤としても利用されます。データレイク、データウェアハウス、データマートの機能を統合し、ビジネスインテリジェンスや機械学習の基盤として活用されます。"
     tags: [gcp, analytics]
     notes:
@@ -109,8 +127,10 @@ cards:
       - "https://cloud.google.com/bigquery"
 
   - id: gcs
-    term: "Cloud Storage (GCS)"
-    definition: "オブジェクトストレージ。画像/動画/バックアップなど非構造データ向け。"
+    term:
+      ja: "Cloud Storage (GCS)"
+      en: "Cloud Storage (GCS)"
+    definition: "Cloud Storageは、オブジェクトストレージです。"
     long-description: "Cloud Storageは、高い耐久性と可用性を持つオブジェクトストレージサービスです。様々なストレージクラス（Standard, Nearline, Coldline, Archive）を提供し、アクセス頻度とコストに応じて最適なものを選択できます。静的ウェブサイトのホスティングや、BigQueryやCloud Functionsなど他GCPサービスとの連携データレイクとしても中心的な役割を果たします。非構造化データの保存に最適で、Webサイトのコンテンツ配信、バックアップ、アーカイブ、ビッグデータ分析のソースなど、幅広い用途で利用されます。"
     tags: [gcp, object]
     notes:
@@ -122,8 +142,10 @@ cards:
       - "https://cloud.google.com/storage"
 
   - id: memorystore
-    term: "Cloud Memorystore for Redis/Memcached"
-    definition: "マネージドRedis/Memcached。インメモリ高速キャッシュ。永続ストアではない。"
+    term:
+      ja: "Cloud Memorystore for Redis/Memcached"
+      en: "Cloud Memorystore for Redis/Memcached"
+    definition: "Cloud Memorystoreは、マネージドRedis/Memcachedです。"
     long-description: "Cloud Memorystoreは、オープンソースのインメモリデータストアであるRedisとMemcachedをフルマネージドで提供するサービスです。アプリケーションの応答時間を短縮するためのキャッシュ層として利用されるのが一般的です。高可用性構成やVPC内でのセキュアなアクセスを提供し、スケーリングも容易に行えます。セッション管理、リアルタイム分析、ゲームのリーダーボードなど、低レイテンシでのデータアクセスが求められるユースケースに最適です。"
     tags: [gcp, cache]
     notes:
@@ -135,8 +157,10 @@ cards:
       - "https://cloud.google.com/memorystore"
 
   - id: ttl
-    term: "TTL (Time To Live)"
-    definition: "キャッシュ有効期限。短すぎるとミス増、長すぎると鮮度低下。"
+    term:
+      ja: "TTL (Time To Live)"
+      en: "TTL (Time To Live)"
+    definition: "TTLは、キャッシュ有効期限です。"
     long-description: "TTLは、データがキャッシュ内に保持される期間を定める値です。この期間を過ぎたデータは無効と見なされ、次にリクエストがあった際にはオリジン（元のデータソース）から再取得されます。適切なTTLの設定は、キャッシュのヒット率とデータ鮮度のバランスを取る上で非常に重要です。DNSレコード、CDNキャッシュ、データベースのキャッシュ、メッセージキューなど、様々なシステムでデータの有効期限を管理するために利用されます。"
     tags: [cache]
     notes:
@@ -146,8 +170,10 @@ cards:
       - "データの鮮度要件とシステム負荷のバランスを考慮して設定する"
 
   - id: negative-cache
-    term: "Negative Cache"
-    definition: "存在しない結果を短TTLでキャッシュして再問い合わせを抑制。"
+    term:
+      ja: "Negative Cache"
+      en: "Negative Cache"
+    definition: "Negative Cacheは、存在しない結果を短TTLでキャッシュして再問い合わせを抑制する仕組みです。"
     long-description: "Negative Cacheは、データソースに「存在しない」という問い合わせ結果を、短いTTLでキャッシュする手法です。例えば、存在しないユーザーIDへのリクエストが大量に発生した場合、毎回データベースに問い合わせる負荷を避けることができます。これにより、悪意のある攻撃やバグによる過剰な負荷からシステムを保護します。特に、ブルートフォースアタックや、存在しないリソースへの頻繁なアクセスからバックエンドシステムを守るのに有効です。"
     tags: [cache, reliability]
     notes:
@@ -157,8 +183,10 @@ cards:
       - "偽陽性（実際には存在するのに存在しないとキャッシュされる）のリスクはない"
 
   - id: single-flight
-    term: "Single-Flight (Request Coalescing)"
-    definition: "同一キーの同時ミスを1回の下流呼び出しに合流しスパイクを抑える。"
+    term:
+      ja: "Single-Flight (Request Coalescing)"
+      en: "Single-Flight (Request Coalescing)"
+    definition: "Single-Flightは、同一キーの同時ミスを1回の下流呼び出しに合流しスパイクを抑える仕組みです。"
     long-description: "Single-Flightは、キャッシュミスが同時に多発した際に、同じリソースに対するリクエストを一つにまとめ、代表者のみがデータソースに問い合わせる仕組みです。他の待機中のリクエストは、その代表者の結果を共有します。これにより、キャッシュが効かない状況（キャッシュのコールドスタート時や、人気アイテムのTTL切れ直後など）でのDB負荷のスパイク（Thundering Herd問題）を防ぎます。Go言語の`golang.org/x/sync/singleflight`パッケージが有名で、並行処理におけるリソースの効率的な利用に貢献します。"
     tags: [cache, reliability]
     notes:
@@ -168,8 +196,10 @@ cards:
       - "バックエンドシステムへの負荷を軽減し、安定性を向上させる"
 
   - id: percentiles
-    term: "p50 / p95 / p99"
-    definition: "レイテンシ分布の百分位点。p95=最遅5%を除いた境界。テール体験を見るならp99。"
+    term:
+      ja: "p50 / p95 / p99"
+      en: "p50 / p95 / p99"
+    definition: "p50 / p95 / p99は、レイテンシ分布の百分位点です。"
     long-description: "パーセンタイルは、測定値の分布を理解するために使われる統計的な指標です。例えば、p95レイテンシが100msであるとは、「リクエストの95%が100ms以内に完了し、残りの5%はそれより時間がかかった」ことを意味します。平均値だけでは見えない外れ値（テールレイテンシ）の影響を把握し、ユーザー体験の悪化を検知するために重要です。特に、ユーザー体験の品質を測る上で、平均値よりもパーセンタイル値が重視されます。"
     tags: [sre, latency]
     notes:
@@ -179,8 +209,10 @@ cards:
       - "テールレイテンシ（p99, p99.9など）は、ごく一部のユーザーが経験する最悪の体験を示す"
 
   - id: slo-sli-sla
-    term: "SLO / SLI / SLA"
-    definition: "目標（SLO）、指標（SLI）、契約（SLA）。対外はSLO中心、p95/p99で定義しがち。"
+    term:
+      ja: "SLO / SLI / SLA"
+      en: "SLO / SLI / SLA"
+    definition: "SLO / SLI / SLAは、目標、指標、契約です。"
     long-description: "SLI (Service Level Indicator)は、サービスのパフォーマンスを測定するための具体的な指標（例：リクエストの成功率、p95レイテンシ）。SLO (Service Level Objective)は、SLIに対する内部的な目標値（例：成功率99.9%）。SLA (Service Level Agreement)は、SLO未達の場合のペナルティなどを含む、顧客との法的な契約です。SREプラクティスでは、野心的なSLOを設定し、それをエラーバジェットの算出基準とします。これらの概念は、サービスの信頼性を管理し、ユーザー体験を向上させるために不可欠です。"
     tags: [sre]
     notes:
@@ -190,8 +222,10 @@ cards:
       - "Google SREのプラクティスで広く提唱されている概念"
 
   - id: error-budget
-    term: "エラーバジェット"
-    definition: "SLOから逆算した“失敗許容量”。燃焼率で運用判断（デプロイ凍結など）。"
+    term:
+      ja: "エラーバジェット"
+      en: "Error Budget"
+    definition: "エラーバジェットは、SLOから逆算した“失敗許容量”です。"
     long-description: "エラーバジェットは `100% - SLO(%)` で計算される、許容されるエラーの量です。例えばSLOが99.9%なら、エラーバジェットは0.1%です。このバジェットを期間内に使い切ってしまうと、信頼性向上のために機能リリースを一時的に凍結するなどのルールを設けることで、開発速度と信頼性のバランスを取ります。エラーバジェットの燃焼速度（Burndown Rate）を監視することは、早期警告に繋がり、問題発生時の迅速な対応を可能にします。"
     tags: [sre]
     notes:
@@ -201,8 +235,10 @@ cards:
       - "SLO達成のためのインセンティブとしても機能する"
 
   - id: rate-limit
-    term: "レート制限"
-    definition: "IP/ユーザーごとのQPSやトークンバケットで乱用防止。"
+    term:
+      ja: "レート制限"
+      en: "Rate Limiting"
+    definition: "レート制限は、IP/ユーザーごとのQPSやトークンバケットで乱用防止する仕組みです。"
     long-description: "レート制限は、特定のクライアントからのリクエスト数を一定期間内に制限する仕組みです。これにより、悪意のあるBotによる過剰なリクエストや、特定ユーザーのバグのあるコードによる負荷からAPIサーバーを保護します。一般的な実装方法として、リーキーバケットやトークンバケットアルゴリズムが用いられます。APIの安定稼働、リソースの公平な利用、DoS攻撃対策など、様々な目的で導入されます。"
     tags: [security, api]
     notes:
@@ -212,8 +248,10 @@ cards:
       - "クライアント側にはリトライメカニズムの実装が推奨される"
 
   - id: waf
-    term: "WAF (Web Application Firewall)"
-    definition: "Webアプリの代表的攻撃(SQLi/XSS等)をフィルタ。Cloud Armor等。"
+    term:
+      ja: "WAF (Web Application Firewall)"
+      en: "WAF (Web Application Firewall)"
+    definition: "WAFは、Webアプリの代表的攻撃をフィルタするものです。"
     long-description: "WAFは、Webアプリケーションの前面に配置され、HTTP/HTTPSトラフィックを監視・フィルタリングすることで、一般的な脆弱性を狙った攻撃からアプリケーションを保護するセキュリティ機能です。SQLインジェクション、クロスサイトスクリプティング(XSS)、OSコマンドインジェクションなどの攻撃パターンを検知し、ブロックします。既知の攻撃パターンに対する防御だけでなく、機械学習を活用して未知の脅威にも対応するWAFも登場しています。Webアプリケーションのセキュリティを強化する上で重要な役割を果たします。"
     tags: [security]
     notes:
@@ -223,8 +261,10 @@ cards:
       - "クラウドサービスとして提供されるWAF（例: Cloud Armor, AWS WAF）も多い"
 
   - id: authn-authz
-    term: "AuthN / AuthZ (Authentication / Authorization)"
-    definition: "認証=本人確認、認可=権限付与。混同しない。"
+    term:
+      ja: "AuthN / AuthZ (Authentication / Authorization)"
+      en: "AuthN / AuthZ (Authentication / Authorization)"
+    definition: "AuthN / AuthZは、認証と認可です。"
     long-description: "認証（Authentication, AuthN）は、「あなたが誰であるか」を確認するプロセスです。IDとパスワードの入力や、MFA（多要素認証）などがこれにあたります。一方、認可（Authorization, AuthZ）は、「あなたに何をする権限があるか」を決定するプロセスです。認証されたユーザーが、特定のデータにアクセスしたり、操作を実行したりする許可があるかどうかを検証します。これら二つの概念は密接に関連していますが、異なる役割を持ち、セキュリティシステム設計の基礎となります。"
     tags: [security]
     notes:
@@ -234,8 +274,10 @@ cards:
       - "ロールベースアクセス制御（RBAC）や属性ベースアクセス制御（ABAC）は認可の具体的な実装例"
 
   - id: cap
-    term: "CAP定理"
-    definition: "分散下ではC/A/P同時達成不可。ネット分断時はCかAを選ぶ。"
+    term:
+      ja: "CAP定理"
+      en: "CAP Theorem"
+    definition: "CAP定理は、分散下ではC/A/P同時達成不可という定理です。"
     long-description: "CAP定理は、分散データストアが以下の3つの保証を同時に提供することはできないという原理です。C (Consistency): 全てのノードが常に同じデータを返すこと。A (Availability): 全ての（障害中でない）ノードが常にリクエストに応答すること。P (Partition Tolerance): ネットワーク分断が発生してもシステム全体が動作を継続すること。分散システムはPを前提とするため、分断時にCとAのどちらを優先するか（CP or AP）の選択を迫られます。この定理は、分散システム設計における基本的なトレードオフを示しています。"
     tags: [distributed]
     notes:
@@ -245,8 +287,10 @@ cards:
       - "ネットワーク分断時でもシステムが動作し続けることをPartition Toleranceと呼ぶ"
 
   - id: pacelc
-    term: "PACELC定理"
-    definition: "分断時はCAP、平常時はLatencyとConsistencyのトレードオフ。"
+    term:
+      ja: "PACELC定理"
+      en: "PACELC Theorem"
+    definition: "PACELC定理は、分断時はCAP、平常時はLatencyとConsistencyのトレードオフという定理です。"
     long-description: "PACELC定理はCAP定理を拡張したものです。ネットワーク分断（Partition）が発生した場合は、AvailabilityとConsistencyのトレードオフ（A or C）がある。そうでなければ（Else）、平常時はLatencyとConsistencyのトレードオフ（L or C）がある、と主張します。例えば、書き込みを多くのノードに同期的にレプリケーションすれば一貫性（C）は高まるが、レイテンシ（L）は悪化します。この定理は、分散システム設計において、より現実的なトレードオフを考慮する上で役立ちます。"
     tags: [distributed]
     notes:
@@ -256,8 +300,10 @@ cards:
       - "CAP定理の限界を補完する概念として提唱された"
 
   - id: replication
-    term: "レプリケーション"
-    definition: "データ複製で冗長化。同期/非同期、リージョン/ゾーン多様。"
+    term:
+      ja: "レプリケーション"
+      en: "Replication"
+    definition: "レプリケーションは、データ複製で冗長化する仕組みです。"
     long-description: "レプリケーションは、同じデータを複数の場所に複製して保持することです。主な目的は、可用性（一つのノードが故障してもサービスを継続）と、読み取り性能の向上（複数のレプリカに読み取りリクエストを分散）です。プライマリからレプリカへのデータコピーを同期的（書き込みの完了を待つ）に行うか、非同期的（待たない）に行うかで、一貫性とパフォーマンスのトレードオフが変わります。データベース、ファイルシステム、キャッシュなど、様々なシステムでデータの冗長性と可用性を高めるために利用されます。"
     tags: [reliability]
     notes:
@@ -267,8 +313,10 @@ cards:
       - "読み取りレプリカは、読み取り負荷を分散し、プライマリの負荷を軽減する"
 
   - id: sharding
-    term: "シャーディング (水平パーティショニング)"
-    definition: "データをキーで分割して複数ノードに配置。ホットスポット回避が肝。"
+    term:
+      ja: "シャーディング (水平パーティショニング)"
+      en: "Sharding (Horizontal Partitioning)"
+    definition: "シャーディングは、データをキーで分割して複数ノードに配置する仕組みです。"
     long-description: "シャーディングは、巨大なデータセットをシャードと呼ばれる小さな単位に分割し、複数のデータベースサーバーに分散させる手法です。これにより、1台のサーバーでは扱いきれないほどのデータ量や書き込み負荷をスケールアウトさせることができます。シャードキーの設計が非常に重要で、キーの選択が悪いと特定シャードにアクセスが集中する「ホットスポット」問題が発生します。大規模なデータセットや高スループットが求められるシステムで、スケーラビリティを確保するために広く用いられます。"
     tags: [db, distributed]
     notes:
@@ -278,8 +326,10 @@ cards:
       - "アプリケーション側でシャードの場所を管理するロジックが必要になる場合がある"
 
   - id: leader-follower
-    term: "Leader/Follower"
-    definition: "書き込みはリーダーで直列、読み取りはフォロワーでスケール。"
+    term:
+      ja: "Leader/Follower"
+      en: "Leader/Follower"
+    definition: "Leader/Followerは、書き込みはリーダーで直列、読み取りはフォロワーでスケールする構成です。"
     long-description: "Leader/Followerは、レプリケーション構成の一種です。全ての書き込みリクエストは単一のLeaderノードが処理し、その変更履歴（ログ）を複数のFollowerノードに複製します。読み取りリクエストはFollowerノードに分散させることができるため、読み取り負荷をスケールアウトさせやすいのが特徴です。Leaderがダウンした場合は、Followerの中から新しいLeaderを選出するフェイルオーバーが行われます。データベース、メッセージキュー、分散ファイルシステムなど、様々な分散システムで利用される一般的なパターンです。"
     tags: [db, distributed]
     notes:
@@ -289,8 +339,10 @@ cards:
       - "フェイルオーバー時のデータ損失や可用性の問題が考慮事項となる"
 
   - id: raft
-    term: "Raft（合意アルゴリズム）"
-    definition: "分散合意アルゴリズム。リーダー選出/ログ複製で一貫性を保つ。"
+    term:
+      ja: "Raft（合意アルゴリズム）"
+      en: "Raft (Consensus Algorithm)"
+    definition: "Raftは、分散合意アルゴリズムです。"
     long-description: "Raftは、分散システムにおいて、複数のノードが状態について一つの合意を形成するためのアルゴリズムです。主に、どのノードがLeaderであるか、そしてレプリケートされたログがどのような順序であるべきかを決定するために使用されます。理解しやすさを重視して設計されており、Paxosという先行するアルゴリズムよりも実装が容易であるとされています。etcdやConsulなどで利用されています。分散システムの信頼性と一貫性を確保するための重要な基盤技術です。"
     tags: [distributed]
     notes:
@@ -302,8 +354,10 @@ cards:
       - "https://raft.github.io/"
 
   - id: truetime
-    term: "TrueTime"
-    definition: "Spannerの誤差付き時計API。トランザクション順序を安全に決定。"
+    term:
+      ja: "TrueTime"
+      en: "TrueTime"
+    definition: "TrueTimeは、Spannerの誤差付き時計APIです。"
     long-description: "TrueTimeは、Googleのデータセンターの原子時計とGPS受信機を利用して、全サーバーに高精度な時刻を提供するAPIです。単一の時刻ではなく、起こりうる誤差を含んだ時刻の範囲 `[earliest, latest]` を返します。Cloud Spannerは、この時刻の範囲を利用してトランザクションのタイムスタンプが重複しないことを保証し、それによってグローバルに一貫性のあるトランザクション順序を決定しています。これにより、地理的に分散した環境でも強整合性のあるトランザクションを実現しています。"
     tags: [gcp, distributed]
     notes:
@@ -315,8 +369,10 @@ cards:
       - "https://research.google.com/pubs/pub45855/"
 
   - id: snowflake
-    term: "Snowflake ID"
-    definition: "timestamp+shard+sequenceの順序性ID。推測されやすいので用途注意。"
+    term:
+      ja: "Snowflake ID"
+      en: "Snowflake ID"
+    definition: "Snowflake IDは、timestamp+shard+sequenceの順序性IDです。"
     long-description: "Snowflake IDは、Twitter社が開発した、分散システムでユニークかつ大まかにソート可能な64ビットIDを生成するアルゴリズムです。IDは、タイムスタンプ部、ワーカーID部、シーケンス番号部から構成されます。時間でソートできるためDBのインデックス効率が良いですが、タイムスタンプ部から生成時刻が推測できるため、セキュリティ要件によっては使用に注意が必要です。分散環境でのユニークID生成に広く利用されています。"
     tags: [id]
     notes:
@@ -328,8 +384,10 @@ cards:
       - "https://en.wikipedia.org/wiki/Snowflake_ID"
 
   - id: uuid4
-    term: "UUID v4"
-    definition: "128bitランダムID。衝突実質ゼロ。Base62化で短縮にも。"
+    term:
+      ja: "UUID v4"
+      en: "UUID v4"
+    definition: "UUID v4は、128bitランダムIDです。"
     long-description: "UUID (Universally Unique Identifier) v4は、乱数に基づいて生成される128ビットの識別子です。その組み合わせの数は天文学的に巨大であるため、全世界で生成しても衝突する確率は無視できるほど小さいです。完全にランダムであるため、順序性はありません。URLセーフにするためにBase62などでエンコードされることもあります。分散システムにおけるユニークな識別子として広く利用されており、衝突の心配がほとんどないのが特徴です。"
     tags: [id]
     notes:
@@ -341,8 +399,10 @@ cards:
       - "https://en.wikipedia.org/wiki/Universally_unique_identifier"
 
   - id: base62
-    term: "Base62"
-    definition: "0-9a-zA-Zの62進表現。URL短縮のコードで一般的。"
+    term:
+      ja: "Base62"
+      en: "Base62"
+    definition: "Base62は、0-9a-zA-Zの62進表現です。"
     long-description: "Base62は、数値を62種類の英数字（0-9, a-z, A-Z）だけを使って表現するエンコーディング方式です。バイナリデータをテキストで表現するBase64と似ていますが、URLで特別な意味を持つ記号（+, /, =）を含まないため、URL短縮サービスのIDなど、人間が読み書きする短い文字列に適しています。短い文字列で多くの情報を表現できるため、URL短縮サービスや、ユニークなIDの表現などに利用されます。"
     tags: [encoding]
     notes:
@@ -352,8 +412,10 @@ cards:
       - "主に短いIDやハッシュ値の表現に利用される"
 
   - id: bloom
-    term: "Bloom Filter"
-    definition: "存在しない可能性を高速に判定（偽陽性あり/偽陰性なし）。LSMの読み最適化に。"
+    term:
+      ja: "Bloom Filter"
+      en: "Bloom Filter"
+    definition: "Bloom Filterは、存在しない可能性を高速に判定するデータ構造です。"
     long-description: "Bloom Filterは、ある要素が集合に含まれているかどうかを、非常に省スペースで高速に判定するための確率的データ構造です。「含まれていない」という判定（偽陰性）は常に正しいですが、「含まれている」という判定（偽陽性）は間違っている可能性があります。LSM-Treeでは、SSTableを読みに行く前にBloom Filterでチェックすることで、存在しないキーに対する不要なディスクI/Oを削減します。キャッシュの最適化、データベースの存在チェック、ネットワークルーティングなど、様々な分野で利用されます。"
     tags: [algo, storage]
     notes:
@@ -365,8 +427,10 @@ cards:
       - "https://en.wikipedia.org/wiki/Bloom_filter"
 
   - id: sstable
-    term: "SSTable (Sorted String Table)"
-    definition: "ソート済み・不変のディスクファイル。MemTableからフラッシュして積み上げる。"
+    term:
+      ja: "SSTable (Sorted String Table)"
+      en: "SSTable (Sorted String Table)"
+    definition: "SSTableは、ソート済み・不変のディスクファイルです。"
     long-description: "SSTableは、キーでソートされたキーバリューペアを格納する、一度書き込んだら変更されない（不変な）ファイルです。LSM-Treeアーキテクチャにおいて、メモリ上の書き込みバッファであるMemTableがいっぱいになると、その内容がSSTableとしてディスクに書き出されます。ファイルがソートされているため、特定のキーの検索や範囲スキャンが効率的に行えます。不変性により、並行処理が容易になり、クラッシュリカバリも簡素化されます。"
     tags: [storage]
     notes:
@@ -376,8 +440,10 @@ cards:
       - "コンパクションにより、複数のSSTableがマージされ、最適化される"
 
   - id: compaction
-    term: "Compaction"
-    definition: "複数SSTableをマージ/再ソートして重複や削除を整理。"
+    term:
+      ja: "Compaction"
+      en: "Compaction"
+    definition: "Compactionは、複数SSTableをマージ/再ソートして重複や削除を整理するプロセスです。"
     long-description: "Compactionは、LSM-Treeベースのストレージシステムにおいて、バックグラウンドで実行されるメンテナンスプロセスです。ディスク上に溜まった複数のSSTableを読み込み、マージして新しいSSTableに書き込みます。この過程で、重複するキーの古い値や、削除マーカーが付いたデータが物理的に削除され、ストレージスペースの効率化と読み取り性能の向上が図られます。コンパクションの戦略は、システムのパフォーマンス特性に大きく影響し、書き込み増幅や読み取り増幅とのトレードオフが存在します。"
     tags: [storage]
     notes:

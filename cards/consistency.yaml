@@ -1,0 +1,35 @@
+meta:
+  deck:
+    ja: "SDI 一貫性"
+    en: "SDI Consistency"
+  lang: "ja"
+cards:
+  - id: consistency-models
+    term:
+      ja: "一貫性モデル"
+      en: "Consistency Models"
+    definition: "一貫性モデルは、分散システムにおいて、データが複数のノード間でどのように同期され、読み取られるかを定義するルールです。"
+    long-description: "一貫性モデルは、分散システムにおいて、データが複数のノード間でどのように同期され、読み取られるかを定義するルールです。最も厳密なのは強一貫性（Strong Consistency）で、常に最新のデータが読み取れることを保証しますが、レイテンシが増加し、可用性が低下する可能性があります。最終一貫性（Eventual Consistency）は、ある時点では古いデータが読み取られる可能性があるものの、最終的には全てのレプリカが同じ状態になることを保証します。その他にも、因果一貫性、読み取り一貫性など様々なモデルがあり、システムの要件に応じて適切なモデルを選択する必要があります。"
+    tags: [distributed, consistency, database]
+    notes:
+      - "強一貫性（Strong Consistency）: 常に最新のデータが読み取れる"
+      - "最終一貫性（Eventual Consistency）: 時間が経てば全てのレプリカが同じ状態になる"
+      - "因果一貫性（Causal Consistency）: 因果関係のある操作の順序を保証"
+      - "読み取り一貫性（Read Consistency）: 読み取り操作の一貫性を保証"
+    url:
+      - "https://en.wikipedia.org/wiki/Consistency_model"
+
+  - id: distributed-lock
+    term:
+      ja: "分散ロック"
+      en: "Distributed Lock"
+    definition: "分散ロックは、複数のプロセスやサーバーが共有リソースに同時にアクセスするのを制御するための仕組みです。"
+    long-description: "分散ロックは、複数のプロセスやサーバーが共有リソース（データベースのレコード、ファイル、外部APIなど）に同時にアクセスするのを制御するための仕組みです。分散システムにおいて、競合状態（Race Condition）を防ぎ、データの一貫性を保つために不可欠です。単一のサーバー内でのロックとは異なり、ネットワークの遅延、ノードの障害、クロックのずれなど、分散システム特有の課題を考慮して設計する必要があります。代表的な実装には、ZooKeeperやRedis、Etcdなどがあります。"
+    tags: [distributed, concurrency, reliability]
+    notes:
+      - "共有リソースへの排他的アクセスを保証"
+      - "デッドロックやライブロックの発生に注意が必要"
+      - "リーダー選出や合意アルゴリズムと関連が深い"
+      - "代表的な実装例: Apache ZooKeeper, Redis (Redlock), Etcd"
+    url:
+      - "https://en.wikipedia.org/wiki/Distributed_lock"

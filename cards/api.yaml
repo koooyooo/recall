@@ -1,0 +1,35 @@
+meta:
+  deck:
+    ja: "SDI API"
+    en: "SDI API"
+  lang: "ja"
+cards:
+  - id: idempotency
+    term:
+      ja: "冪等性"
+      en: "Idempotency"
+    definition: "冪等性とは、同じ操作を複数回実行しても、システムの状態が初回実行時と変わらない特性です。"
+    long-description: "冪等性とは、ある操作を複数回実行しても、システムの状態が初回実行時と変わらない特性を指します。分散システムやネットワーク通信において、リクエストの再送（リトライ）は頻繁に発生するため、冪等性は非常に重要です。例えば、決済処理で冪等性が保証されていないと、リトライによって二重決済が発生する可能性があります。HTTPメソッドではGET、PUT、DELETEは冪等ですが、POSTは通常冪等ではありません。冪等性を実現するためには、リクエストIDの利用や、状態遷移のチェックなどの工夫が必要です。"
+    tags: [api, reliability, distributed]
+    notes:
+      - "リトライセーフなAPI設計に不可欠"
+      - "GET, PUT, DELETEは通常冪等、POSTは通常冪等ではない"
+      - "リクエストID（冪等キー）を付与して、サーバー側で重複リクエストを検出・無視する"
+      - "分散システムにおける信頼性向上に貢献"
+    url:
+      - "https://en.wikipedia.org/wiki/Idempotence"
+
+  - id: api-gateway
+    term:
+      ja: "API Gateway"
+      en: "API Gateway"
+    definition: "API Gatewayは、マイクロサービスへの単一のエントリポイントを提供し、ルーティング、認証、レート制限などを集約するサーバーです。"
+    long-description: "API Gatewayは、クライアントからのリクエストを複数のマイクロサービスにルーティングする単一のエントリポイントとして機能します。これにより、クライアントは個々のマイクロサービスの複雑さを意識することなく、API Gatewayとだけ通信すればよくなります。API Gatewayは、リクエストのルーティング、認証・認可、レート制限、ロギング、モニタリング、キャッシュ、レスポンス変換など、様々な横断的関心事を集約して処理します。これにより、マイクロサービス自体はビジネスロジックに集中でき、開発効率と運用性が向上します。"
+    tags: [api, microservices, architecture]
+    notes:
+      - "マイクロサービスアーキテクチャにおける単一のエントリポイント"
+      - "認証・認可、レート制限、ロギングなどの横断的関心事を集約"
+      - "クライアントとマイクロサービスの疎結合を実現"
+      - "代表的な実装例: Nginx, Kong, Amazon API Gateway, Google Cloud Endpoints"
+    url:
+      - "https://microservices.io/patterns/apigateway.html"

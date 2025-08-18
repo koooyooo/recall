@@ -21,6 +21,9 @@ console = Console()
 
 def load_cards(path, tags=None):
     all_cards = []
+    # Store deck info temporarily
+    deck_info = {}
+
     if os.path.isdir(path):
         for root, _, files in os.walk(path):
             for file in files:
@@ -28,16 +31,66 @@ def load_cards(path, tags=None):
                     filepath = os.path.join(root, file)
                     with open(filepath, "r", encoding="utf-8") as f:
                         data = yaml.safe_load(f)
-                        if data and "cards" in data:
-                            all_cards.extend(data["cards"])
+                        if data:
+                            # Extract deck info from meta
+                            if "meta" in data and "deck" in data["meta"]:
+                                deck_data = data["meta"]["deck"]
+                                if isinstance(deck_data, dict):
+                                    deck_info["ja"] = deck_data.get("ja", "Unknown Deck (Ja)")
+                                    deck_info["en"] = deck_data.get("en", "Unknown Deck (En)")
+                                else: # Fallback for old string format
+                                    deck_info["ja"] = deck_data
+                                    deck_info["en"] = deck_data
+                            else:
+                                deck_info["ja"] = "Unknown Deck (Ja)"
+                                deck_info["en"] = "Unknown Deck (En)"
+
+                            if "cards" in data:
+                                for card in data["cards"]:
+                                    # Handle new term structure
+                                    if isinstance(card.get("term"), dict):
+                                        card["_term_ja"] = card["term"].get("ja", "")
+                                        card["_term_en"] = card["term"].get("en", "")
+                                    else: # Fallback for old string format
+                                        card["_term_ja"] = card.get("term", "")
+                                        card["_term_en"] = card.get("term", "") # Use same for en if not specified
+
+                                    card["_deck_name_ja"] = deck_info["ja"]
+                                    card["_deck_name_en"] = deck_info["en"]
+                                    all_cards.append(card)
     elif os.path.isfile(path):
         with open(path, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
-            if data and "cards" in data:
-                all_cards.extend(data["cards"])
+            if data:
+                # Extract deck info from meta
+                if "meta" in data and "deck" in data["meta"]:
+                    deck_data = data["meta"]["deck"]
+                    if isinstance(deck_data, dict):
+                        deck_info["ja"] = deck_data.get("ja", "Unknown Deck (Ja)")
+                        deck_info["en"] = deck_data.get("en", "Unknown Deck (En)")
+                    else: # Fallback for old string format
+                        deck_info["ja"] = deck_data
+                        deck_info["en"] = deck_data
+                else:
+                    deck_info["ja"] = "Unknown Deck (Ja)"
+                    deck_info["en"] = "Unknown Deck (En)"
+
+                if "cards" in data:
+                    for card in data["cards"]:
+                        # Handle new term structure
+                        if isinstance(card.get("term"), dict):
+                            card["_term_ja"] = card["term"].get("ja", "")
+                            card["_term_en"] = card["term"].get("en", "")
+                        else: # Fallback for old string format
+                            card["_term_ja"] = card.get("term", "")
+                            card["_term_en"] = card.get("term", "") # Use same for en if not specified
+
+                        card["_deck_name_ja"] = deck_info["ja"]
+                        card["_deck_name_en"] = deck_info["en"]
+                        all_cards.append(card)
     else:
         # Handle invalid path (neither file nor directory)
-        return [] # Or raise an error, depending on desired behavior
+        return []
 
     cards = all_cards
     if tags:
@@ -93,13 +146,39 @@ def quiz(cards, count=20, reverse=False, verbose=False):
 
     try:
         for c in pool:
-            cid = c.get("id", c.get("term"))
-            term = c["term"].strip()
+            cid = c.get("id", c.get("_term_ja", c.get("term", "?"))) # Use _term_ja if id is missing, fallback to original term
+            
+            # Construct the term string with both Japanese and English
+            term_ja = c.get("_term_ja", "").strip()
+            term_en = c.get("_term_en", "").strip()
+            
+            if term_ja and term_en and term_ja != term_en:
+                display_term = f"{term_ja} ({term_en})"
+            elif term_ja:
+                display_term = term_ja
+            elif term_en:
+                display_term = term_en
+            else:
+                display_term = c.get("term", "Unknown Term").strip() # Fallback to original term if new fields are empty
+
             definition = c["definition"].strip()
-            prompt, answer = (definition, term) if reverse else (term, definition)
+            
+            # Mask subject if reverse mode is active
+            if reverse:
+                # Simple masking: find "は" and replace the part before it with "___"
+                # This is a heuristic and might not be perfect for all Japanese sentence structures.
+                if "は" in definition:
+                    subject_end_index = definition.find("は")
+                    masked_definition = "___" + definition[subject_end_index:]
+                else:
+                    masked_definition = definition # No "は" found, no masking
+            else:
+                masked_definition = definition
+            
+            prompt, answer = (masked_definition, display_term) if reverse else (display_term, definition)
 
             console.print()
-            console.print(Panel(prompt, title=f"[bold cyan]Q: {cid}[/bold cyan]", border_style="cyan"))
+            console.print(Panel(prompt, title=f"[bold cyan]Q: {cid} ({c['_deck_name_ja']} / {c['_deck_name_en']})[/bold cyan]", border_style="cyan"))
             input("↩︎ Enter で解答を表示...")
             
             answer_text = Text(f"👉 {answer}", style="bold green")
