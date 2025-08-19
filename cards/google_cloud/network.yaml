@@ -1,0 +1,82 @@
+meta:
+  deck:
+    ja: "GCP ネットワーク"
+    en: "GCP Network"
+  lang: "ja"
+cards:
+  - id: gcp-lb
+    term:
+      ja: "Cloud Load Balancing"
+      en: "Cloud Load Balancing"
+    definition: "Googleのグローバルネットワーク上で高性能・高可用な負荷分散を実現する、GCPのマネージドサービス群です。"
+        explanation: |
+      Cloud Load Balancingは、単一のエニーキャストIPアドレスの背後で、世界中のリージョンにトラフィックを分散できるのが大きな特徴です。
+      用途に応じて様々な種類のロードバランサーが提供されています。
+      - グローバル外部HTTP(S)ロードバランサ: Webトラフィック向けのL7ロードバランサ。Cloud CDNやCloud Armorと連携可能。
+      - リージョン外部/内部ロードバランサ: 特定リージョン内のトラフィックや、VPC内部の通信向けのL4/L7ロードバランサ。
+    tags: [gcp, network, load-balancing, high-availability]
+    notes:
+      - "単一のエニーキャストIPアドレスでグローバルに負荷分散できるのが強み"
+      - "バックエンドサービスのヘルスチェック機能を持つ"
+      - "Cloud CDNと統合して、キャッシュされたコンテンツの配信を高速化できる"
+      - "Cloud Armorと統合して、DDoS攻撃やWeb攻撃からアプリケーションを保護できる"
+    url:
+      - "https://cloud.google.com/load-balancing"
+
+  - id: vpc
+    term:
+      ja: "VPC (Virtual Private Cloud)"
+      en: "VPC (Virtual Private Cloud)"
+    definition: "Google Cloud上でユーザーが定義する、論理的に分離されたプライベートなネットワーク空間です。"
+    explanation: |
+      VPCは、GCPリソース（VMインスタンス、GKEクラスタ、データベースなど）をデプロイするための、ユーザーが完全に制御できる仮想ネットワークです。
+      IPアドレス範囲、サブネット、ルート、ファイアウォールルールなどを自由に定義でき、
+      オンプレミスネットワークとのVPN接続や専用線接続（Cloud Interconnect）も可能です。
+      これにより、セキュアで隔離された環境でアプリケーションを構築できます。
+    tags: [gcp, network, infrastructure]
+    notes:
+      - "グローバルなVPCネットワークであり、リージョンをまたいでリソースを配置できる"
+      - "サブネットはリージョンリソースであり、IPアドレス範囲を定義する"
+      - "ファイアウォールルールにより、きめ細やかなアクセス制御が可能"
+      - "共有VPC機能により、複数のプロジェクト間でVPCネットワークを共有できる"
+    url:
+      - "https://cloud.google.com/vpc"
+
+  - id: cloud-nat
+    term:
+      ja: "Cloud NAT (Network Address Translation)"
+      en: "Cloud NAT"
+    definition: "プライベートIPアドレスを持つVMインスタンスが、外部インターネットに安全に接続できるようにするマネージドサービスです。"
+    explanation: |
+      Cloud NATは、VPCネットワーク内のプライベートIPアドレスを持つリソースが、
+      インターネット上のリソース（ソフトウェアアップデート、外部APIなど）にアクセスする際に、
+      単一または複数のパブリックIPアドレスを介して通信できるようにします。
+      これにより、各VMにパブリックIPアドレスを割り当てる必要がなくなり、セキュリティが向上し、
+      パブリックIPアドレスの消費を抑えることができます。インバウンドのインターネット接続は許可せず、アウトバウンドのみを制御します。
+    tags: [gcp, network, security]
+    notes:
+      - "VPCネットワーク内のプライベートVMからインターネットへのアウトバウンド接続を可能にする"
+      - "インバウンド接続は許可しないため、セキュリティが向上する"
+      - "パブリックIPアドレスの節約に貢献する"
+      - "リージョンリソースであり、特定のリージョン内のVMに適用される"
+    url:
+      - "https://cloud.google.com/nat"
+
+  - id: cloud-router
+    term:
+      ja: "Cloud Router"
+      en: "Cloud Router"
+    definition: "Google Cloudとオンプレミスネットワーク間のルーティング情報を動的に交換する、マネージドなBGPルーターです。"
+    explanation: |
+      Cloud Routerは、Cloud VPNやCloud Interconnectを介して、
+      GCPのVPCネットワークとオンプレミスネットワーク間のルーティング情報をBGP（Border Gateway Protocol）を使用して動的に交換します。
+      これにより、ネットワーク構成の変更（例: 新しいサブネットの追加）が自動的に伝播され、手動でのルート設定が不要になります。
+      高可用性構成も可能で、ハイブリッドクラウド環境におけるネットワークの複雑性を軽減します。
+    tags: [gcp, network, hybrid-cloud]
+    notes:
+      - "Cloud VPNやCloud Interconnectと連携してハイブリッド接続を実現する"
+      - "BGPを利用してルーティング情報を動的に交換する"
+      - "高可用性構成により、接続の冗長性を確保できる"
+      - "オンプレミスネットワークとGCP間のプライベート接続を容易にする"
+    url:
+      - "https://cloud.google.com/router"

@@ -1,0 +1,24 @@
+meta:
+  deck:
+    ja: "GCP キャッシング"
+    en: "GCP Caching"
+  lang: "ja"
+cards:
+  - id: memorystore
+    term:
+      ja: "Cloud Memorystore for Redis/Memcached"
+      en: "Cloud Memorystore for Redis/Memcached"
+    definition: "Cloud Memorystoreは、マネージドRedis/Memcachedです。"
+    explanation: |
+      Cloud Memorystoreは、オープンソースのインメモリデータストアであるRedisとMemcachedをフルマネージドで提供するサービスです。
+      アプリケーションの応答時間を短縮するためのキャッシュ層として利用されるのが一般的です。
+      高可用性構成やVPC内でのセキュアなアクセスを提供し、スケーリングも容易に行えます。
+      セッション管理、リアルタイム分析、ゲームのリーダーボードなど、低レイテンシでのデータアクセスが求められるユースケースに最適です。
+    tags: [gcp, cache]
+    notes:
+      - "Redisは永続化オプションも持つが、基本は揮発性メモリとして扱うべき"
+      - "フルマネージドサービスで運用負担を軽減"
+      - "RedisとMemcachedの2種類を提供"
+      - "高スループットと低レイテンシを実現"
+    url:
+      - "https://cloud.google.com/memorystore"

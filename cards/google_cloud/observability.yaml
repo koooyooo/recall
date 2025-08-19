@@ -1,0 +1,24 @@
+meta:
+  deck:
+    ja: "GCP 可観測性"
+    en: "GCP Observability"
+  lang: "ja"
+cards:
+  - id: gcp-ops-suite
+    term:
+      ja: "Google Cloud's operations suite (Stackdriver)"
+      en: "Google Cloud's operations suite (Stackdriver)"
+    definition: "GCPおよびハイブリッド環境向けの、モニタリング、ロギング、トレース、プロファイリングなどを統合した可観測性サービス群です。"
+    explanation: |
+      旧称Stackdriverとして知られていたこのスイートは、システムの健全性、パフォーマンス、可用性を維持するための包括的な機能を提供します。
+      - Cloud Monitoring: メトリクスを収集、可視化し、ダッシュボードやアラートを作成します。
+      - Cloud Logging: アプリケーションやインフラからのログを一元的に収集、検索、分析します。
+      - Cloud Trace: リクエストがシステムを横断する際のレイテンシを追跡し、パフォーマンスのボトルネックを特定します。
+      - Cloud Profiler: 本番環境で実行中のコードのパフォーマンスを継続的に分析し、CPUやメモリ使用量の多い箇所を特定します。
+    tags: [gcp, sre, observability, monitoring, logging, tracing]
+    notes:
+      - "可観測性の3本柱（メトリクス、ログ、トレース）をカバーする"
+      - "GCPサービスだけでなく、AWSやオンプレミスのサーバーからもデータを収集できる"
+      - "SLOモニタリング機能により、サービスの信頼性を定量的に管理できる"
+    url:
+      - "https://cloud.google.com/products/operations"

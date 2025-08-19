@@ -9,7 +9,11 @@ cards:
       ja: "Cloud Storage (GCS)"
       en: "Cloud Storage (GCS)"
     definition: "高い耐久性と可用性を持つ、Google Cloudのオブジェクトストレージサービスです。"
-    explanation: "Cloud Storageは、画像、動画、バックアップ、ログファイルといった大量の非構造化データを保存するのに適しています。データは「バケット」という単位で管理され、世界中のどこからでもHTTP/HTTPS経由でアクセスできます。アクセス頻度に応じてStandard, Nearline, Coldline, Archiveといったストレージクラスを選択でき、コストを最適化できます。静的ウェブサイトのホスティングや、BigQueryやCloud Runなど他GCPサービスとのデータ連携のハブとしても中心的な役割を果たします。"
+    explanation: |
+      Cloud Storageは、画像、動画、バックアップ、ログファイルといった大量の非構造化データを保存するのに適しています。
+      データは「バケット」という単位で管理され、世界中のどこからでもHTTP/HTTPS経由でアクセスできます。
+      アクセス頻度に応じてStandard, Nearline, Coldline, Archiveといったストレージクラスを選択でき、コストを最適化できます。
+      静的ウェブサイトのホスティングや、BigQueryやCloud Runなど他GCPサービスとのデータ連携のハブとしても中心的な役割を果たします。
     tags: [gcp, storage, object]
     notes:
       - "99.999999999% (イレブンナイン) という非常に高い耐久性を誇る"
