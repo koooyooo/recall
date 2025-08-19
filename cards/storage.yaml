@@ -1,0 +1,35 @@
+meta:
+  deck:
+    ja: "SDI ストレージ"
+    en: "SDI Storage"
+  lang: "ja"
+cards:
+  - id: block-storage
+    term:
+      ja: "ブロックストレージ"
+      en: "Block Storage"
+    definition: "データを固定サイズのブロック単位で管理し、サーバーにブロックデバイスとして接続するストレージです。"
+    explanation: "ブロックストレージは、データを「ブロック」と呼ばれる固定サイズの単位で管理し、OSからはローカルディスクのように見えるストレージです。ファイルシステムを自由にフォーマットでき、データベースや仮想マシンのディスクイメージなど、高速なランダムアクセスが求められる用途に適しています。しかし、ファイル単位でのメタデータ管理はOS側で行うため、オブジェクトストレージのような豊富なメタデータ機能はありません。"
+    tags: [storage, infrastructure]
+    notes:
+      - "OSからはローカルディスク（ブロックデバイス）として認識される"
+      - "高速なランダムリード/ライトアクセスに優れる"
+      - "データベース、仮想マシンのディスクイメージ、ファイルシステムなどに利用される"
+      - "代表例: Amazon EBS, Google Persistent Disk"
+    url:
+      - "https://en.wikipedia.org/wiki/Block-level_storage"
+
+  - id: object-storage
+    term:
+      ja: "オブジェクトストレージ"
+      en: "Object Storage"
+    definition: "データとメタデータを「オブジェクト」という単位で管理し、HTTP/HTTPS経由でアクセスするストレージです。"
+    explanation: "オブジェクトストレージは、データ本体と、それに関連するメタデータ（作成日、コンテンツタイプなど）をまとめて「オブジェクト」として管理します。各オブジェクトにはユニークなIDが付与され、HTTP/HTTPSプロトコルを使ってAPI経由でアクセスします。階層構造がなくフラットな名前空間を持つため、スケーラビリティに非常に優れており、バックアップ、アーカイブ、静的コンテンツ配信、データレイクなど、大量の非構造化データを保存するのに適しています。"
+    tags: [storage, infrastructure, cloud]
+    notes:
+      - "HTTP/HTTPS API経由でアクセスする"
+      - "スケーラビリティと耐久性が非常に高い"
+      - "バックアップ、アーカイブ、メディアファイル、データレイクなど、非構造化データの保存に最適"
+      - "代表例: Amazon S3, Google Cloud Storage"
+    url:
+      - "https://en.wikipedia.org/wiki/Object_storage"
