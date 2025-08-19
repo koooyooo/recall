@@ -1,0 +1,44 @@
+meta:
+  deck:
+    ja: "SDI セキュリティ"
+    en: "SDI Security"
+  lang: "ja"
+cards:
+  - id: rate-limit
+    term:
+      ja: "レート制限"
+      en: "Rate Limiting"
+    definition: "レート制限は、IP/ユーザーごとのQPSやトークンバケットで乱用防止する仕組みです。"
+    explanation: "レート制限は、特定のクライアントからのリクエスト数を一定期間内に制限する仕組みです。これにより、悪意のあるBotによる過剰なリクエストや、特定ユーザーのバグのあるコードによる負荷からAPIサーバーを保護します。一般的な実装方法として、リーキーバケットやトークンバケットアルゴリズムが用いられます。APIの安定稼働、リソースの公平な利用、DoS攻撃対策など、様々な目的で導入されます。"
+    tags: [security, api]
+    notes:
+      - "HTTP 429 (Too Many Requests) ステータスコードを返すのが一般的"
+      - "リーキーバケットやトークンバケットなどのアルゴリズムが使われる"
+      - "APIの乱用防止、リソース保護、コスト最適化に貢献"
+      - "クライアント側にはリトライメカニズムの実装が推奨される"
+
+  - id: waf
+    term:
+      ja: "WAF (Web Application Firewall)"
+      en: "WAF (Web Application Firewall)"
+    definition: "WAFは、Webアプリの代表的攻撃をフィルタするものです。"
+    explanation: "WAFは、Webアプリケーションの前面に配置され、HTTP/HTTPSトラフィックを監視・フィルタリングすることで、一般的な脆弱性を狙った攻撃からアプリケーションを保護するセキュリティ機能です。SQLインジェクション、クロスサイトスクリプティング(XSS)、OSコマンドインジェクションなどの攻撃パターンを検知し、ブロックします。既知の攻撃パターンに対する防御だけでなく、機械学習を活用して未知の脅威にも対応するWAFも登場しています。Webアプリケーションのセキュリティを強化する上で重要な役割を果たします。"
+    tags: [security]
+    notes:
+      - "シグネチャベースのマッチングが基本だが、機械学習で未知の攻撃を検知するWAFもある"
+      - "OWASP Top 10に挙げられるような脆弱性への対策に有効"
+      - "L7（アプリケーション層）での防御を提供する"
+      - "クラウドサービスとして提供されるWAF（例: Cloud Armor, AWS WAF）も多い"
+
+  - id: authn-authz
+    term:
+      ja: "AuthN / AuthZ (Authentication / Authorization)"
+      en: "AuthN / AuthZ (Authentication / Authorization)"
+    definition: "AuthN / AuthZは、認証と認可です。"
+    explanation: "認証（Authentication, AuthN）は、「あなたが誰であるか」を確認するプロセスです。IDとパスワードの入力や、MFA（多要素認証）などがこれにあたります。一方、認可（Authorization, AuthZ）は、「あなたに何をする権限があるか」を決定するプロセスです。認証されたユーザーが、特定のデータにアクセスしたり、操作を実行したりする許可があるかどうかを検証します。これら二つの概念は密接に関連していますが、異なる役割を持ち、セキュリティシステム設計の基礎となります。"
+    tags: [security]
+    notes:
+      - "OAuth 2.0は認可のフレームワーク"
+      - "OpenID Connect (OIDC) は認証のプロトコル"
+      - "認証は「Who are you?」、認可は「What can you do?」"
+      - "ロールベースアクセス制御（RBAC）や属性ベースアクセス制御（ABAC）は認可の具体的な実装例"

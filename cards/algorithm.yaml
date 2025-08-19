@@ -1,0 +1,63 @@
+meta:
+  deck:
+    ja: "SDI アルゴリズムとデータ構造"
+    en: "SDI Algorithms & Data Structures"
+  lang: "ja"
+cards:
+  - id: snowflake
+    term:
+      ja: "Snowflake ID"
+      en: "Snowflake ID"
+    definition: "Snowflake IDは、timestamp+shard+sequenceの順序性IDです。"
+    explanation: "Snowflake IDは、Twitter社が開発した、分散システムでユニークかつ大まかにソート可能な64ビットIDを生成するアルゴリズムです。IDは、タイムスタンプ部、ワーカーID部、シーケンス番号部から構成されます。時間でソートできるためDBのインデックス効率が良いですが、タイムスタンプ部から生成時刻が推測できるため、セキュリティ要件によっては使用に注意が必要です。分散環境でのユニークID生成に広く利用されています。"
+    tags: [id, algorithm]
+    notes:
+      - "IDの枯渇問題が起きにくく、スケーラブル"
+      - "生成時刻がIDに含まれるため、ソート可能"
+      - "ワーカーIDにより、複数のノードでユニークなIDを生成できる"
+      - "セキュリティ要件によっては、生成時刻が推測されるリスクがある"
+    url:
+      - "https://en.wikipedia.org/wiki/Snowflake_ID"
+
+  - id: uuid4
+    term:
+      ja: "UUID v4"
+      en: "UUID v4"
+    definition: "UUID v4は、128bitランダムIDです。"
+    explanation: "UUID (Universally Unique Identifier) v4は、乱数に基づいて生成される128ビットの識別子です。その組み合わせの数は天文学的に巨大であるため、全世界で生成しても衝突する確率は無視できるほど小さいです。完全にランダムであるため、順序性はありません。URLセーフにするためにBase62などでエンコードされることもあります。分散システムにおけるユニークな識別子として広く利用されており、衝突の心配がほとんどないのが特徴です。"
+    tags: [id, algorithm]
+    notes:
+      - "生成が容易で外部依存がないが、長くて（36文字）人間には読みにくい"
+      - "完全にランダムなため、生成時刻や順序性はない"
+      - "衝突確率は非常に低く、実質的にユニーク"
+      - "データベースの主キーとして利用されることもあるが、インデックス効率は悪い場合がある"
+    url:
+      - "https://en.wikipedia.org/wiki/Universally_unique_identifier"
+
+  - id: base62
+    term:
+      ja: "Base62"
+      en: "Base62"
+    definition: "Base62は、0-9a-zA-Zの62進表現です。"
+    explanation: "Base62は、数値を62種類の英数字（0-9, a-z, A-Z）だけを使って表現するエンコーディング方式です。バイナリデータをテキストで表現するBase64と似ていますが、URLで特別な意味を持つ記号（+, /, =）を含まないため、URL短縮サービスのIDなど、人間が読み書きする短い文字列に適しています。短い文字列で多くの情報を表現できるため、URL短縮サービスや、ユニークなIDの表現などに利用されます。"
+    tags: [encoding, algorithm]
+    notes:
+      - "大文字小文字を区別しないシステムでは使えないので注意"
+      - "URLセーフな文字のみを使用"
+      - "Base64よりも短い文字列で表現できる場合がある"
+      - "主に短いIDやハッシュ値の表現に利用される"
+
+  - id: bloom
+    term:
+      ja: "Bloom Filter"
+      en: "Bloom Filter"
+    definition: "Bloom Filterは、存在しない可能性を高速に判定するデータ構造です。"
+    explanation: "Bloom Filterは、ある要素が集合に含まれているかどうかを、非常に省スペースで高速に判定するための確率的データ構造です。「含まれていない」という判定（偽陰性）は常に正しいですが、「含まれている」という判定（偽陽性）は間違っている可能性があります。LSM-Treeでは、SSTableを読みに行く前にBloom Filterでチェックすることで、存在しないキーに対する不要なディスクI/Oを削減します。キャッシュの最適化、データベースの存在チェック、ネットワークルーティングなど、様々な分野で利用されます。"
+    tags: [algo, storage, algorithm]
+    notes:
+      - "要素を追加することはできるが、削除することはできない（Counting Bloom Filterなどの派生形を除く）"
+      - "偽陽性率を許容することで、メモリ使用量を大幅に削減できる"
+      - "データが存在しないことを高速に判定できるのが最大のメリット"
+      - "LSM-Treeの読み取り性能向上に貢献"
+    url:
+      - "https://en.wikipedia.org/wiki/Bloom_filter"

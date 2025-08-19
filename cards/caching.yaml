@@ -1,0 +1,91 @@
+meta:
+  deck:
+    ja: "SDI キャッシング"
+    en: "SDI Caching"
+  lang: "ja"
+cards:
+  - id: memorystore
+    term:
+      ja: "Cloud Memorystore for Redis/Memcached"
+      en: "Cloud Memorystore for Redis/Memcached"
+    definition: "Cloud Memorystoreは、マネージドRedis/Memcachedです。"
+    explanation: "Cloud Memorystoreは、オープンソースのインメモリデータストアであるRedisとMemcachedをフルマネージドで提供するサービスです。アプリケーションの応答時間を短縮するためのキャッシュ層として利用されるのが一般的です。高可用性構成やVPC内でのセキュアなアクセスを提供し、スケーリングも容易に行えます。セッション管理、リアルタイム分析、ゲームのリーダーボードなど、低レイテンシでのデータアクセスが求められるユースケースに最適です。"
+    tags: [gcp, cache]
+    notes:
+      - "Redisは永続化オプションも持つが、基本は揮発性メモリとして扱うべき"
+      - "フルマネージドサービスで運用負担を軽減"
+      - "RedisとMemcachedの2種類を提供"
+      - "高スループットと低レイテンシを実現"
+    url:
+      - "https://cloud.google.com/memorystore"
+
+  - id: ttl
+    term:
+      ja: "TTL (Time To Live)"
+      en: "TTL (Time To Live)"
+    definition: "TTLは、キャッシュ有効期限です。"
+    explanation: "TTLは、データがキャッシュ内に保持される期間を定める値です。この期間を過ぎたデータは無効と見なされ、次にリクエストがあった際にはオリジン（元のデータソース）から再取得されます。適切なTTLの設定は、キャッシュのヒット率とデータ鮮度のバランスを取る上で非常に重要です。DNSレコード、CDNキャッシュ、データベースのキャッシュ、メッセージキューなど、様々なシステムでデータの有効期限を管理するために利用されます。"
+    tags: [cache]
+    notes:
+      - "CDN, DNSレコード, Redisキーなど、様々なキャッシュシステムで使われる概念"
+      - "短すぎるとオリジンへの負荷が増加し、キャッシュのメリットが薄れる"
+      - "長すぎると古いデータが提供されるリスクがある"
+      - "データの鮮度要件とシステム負荷のバランスを考慮して設定する"
+
+  - id: negative-cache
+    term:
+      ja: "Negative Cache"
+      en: "Negative Cache"
+    definition: "Negative Cacheは、存在しない結果を短TTLでキャッシュして再問い合わせを抑制する仕組みです。"
+    explanation: "Negative Cacheは、データソースに「存在しない」という問い合わせ結果を、短いTTLでキャッシュする手法です。例えば、存在しないユーザーIDへのリクエストが大量に発生した場合、毎回データベースに問い合わせる負荷を避けることができます。これにより、悪意のある攻撃やバグによる過剰な負荷からシステムを保護します。特に、ブルートフォースアタックや、存在しないリソースへの頻繁なアクセスからバックエンドシステムを守るのに有効です。"
+    tags: [cache, reliability]
+    notes:
+      - "TTLは通常のキャッシュより大幅に短く設定するのが一般的（数秒〜数分）"
+      - "存在しないリソースへの不要なアクセスを減らし、バックエンドの負荷を軽減"
+      - "セキュリティ対策やDoS攻撃対策としても有効"
+      - "偽陽性（実際には存在するのに存在しないとキャッシュされる）のリスクはない"
+
+  - id: single-flight
+    term:
+      ja: "Single-Flight (Request Coalescing)"
+      en: "Single-Flight (Request Coalescing)"
+    definition: "Single-Flightは、同一キーの同時ミスを1回の下流呼び出しに合流しスパイクを抑える仕組みです。"
+    explanation: "Single-Flightは、キャッシュミスが同時に多発した際に、同じリソースに対するリクエストを一つにまとめ、代表者のみがデータソースに問い合わせる仕組みです。他の待機中のリクエストは、その代表者の結果を共有します。これにより、キャッシュが効かない状況（キャッシュのコールドスタート時や、人気アイテムのTTL切れ直後など）でのDB負荷のスパイク（Thundering Herd問題）を防ぎます。Go言語の`golang.org/x/sync/singleflight`パッケージが有名で、並行処理におけるリソースの効率的な利用に貢献します。"
+    tags: [cache, reliability]
+    notes:
+      - "Goの `golang.org/x/sync/singleflight` パッケージが有名"
+      - "Thundering Herd問題（多数のリクエストが同時にキャッシュミスし、バックエンドに集中する問題）を解決"
+      - "キャッシュのコールドスタート時や、TTL切れ直後のスパイクを抑制"
+      - "バックエンドシステムへの負荷を軽減し、安定性を向上させる"
+
+  - id: cdn
+    term:
+      ja: "CDN"
+      en: "CDN (Content Delivery Network)"
+    definition: "CDNは、Webコンテンツをユーザーに近いエッジサーバーにキャッシュし、高速配信する分散ネットワークです。"
+    explanation: "CDNは、Webサイトの静的コンテンツ（画像、動画、CSS、JavaScriptファイルなど）を世界中に分散配置されたエッジサーバー（PoP: Point of Presence）にキャッシュすることで、ユーザーからのリクエストに対して最も近いサーバーからコンテンツを配信する仕組みです。これにより、コンテンツのロード時間を短縮し、ユーザー体験を向上させるとともに、オリジンサーバーへの負荷を軽減します。特にグローバルなユーザーベースを持つWebサービスや、大量のメディアコンテンツを配信するサービスで不可欠な技術です。"
+    tags: [network, caching, performance]
+    notes:
+      - "ユーザーに近いエッジサーバーからコンテンツを配信するため、レイテンシが低減される"
+      - "オリジンサーバーへの負荷を軽減し、スケーラビリティを向上させる"
+      - "DDoS攻撃対策としても機能する場合がある"
+      - "キャッシュの無効化（Purge）やプリフェッチ（Pre-fetching）などの機能を持つ"
+    url:
+      - "https://en.wikipedia.org/wiki/Content_delivery_network"
+
+  - id: cache-eviction
+    term:
+      ja: "キャッシュ削除ポリシー"
+      en: "Cache Eviction Policies"
+    definition: "キャッシュが満杯になったときに、どのデータを削除して新しい空き領域を確保するかを決定するアルゴリズムです。"
+    explanation: "キャッシュのサイズは有限であるため、新しいデータを格納するスペースがなくなると、既存のデータを削除（evict）する必要があります。どのデータを削除するかを決定するのが削除ポリシーです。
+- LRU (Least Recently Used): 最も長い間参照されていないデータを削除します。時間的局所性（最近使われたものは再度使われる可能性が高い）に基づいています。
+- LFU (Least Frequently Used): 最も参照された回数が少ないデータを削除します。
+- FIFO (First-In, First-Out): 最も古く格納されたデータを削除します。"
+    tags: [cache, algorithm]
+    notes:
+      - "LRUが最も一般的に使用されるポリシーの一つ"
+      - "LFUは参照カウントを保持する必要があるため、実装が複雑になる場合がある"
+      - "どのポリシーが最適かは、アプリケーションのデータアクセスパターンに依存する"
+    url:
+      - "https://en.wikipedia.org/wiki/Cache_replacement_policies"

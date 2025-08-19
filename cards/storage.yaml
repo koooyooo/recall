@@ -33,3 +33,74 @@ cards:
       - "代表例: Amazon S3, Google Cloud Storage"
     url:
       - "https://en.wikipedia.org/wiki/Object_storage"
+
+  - id: file-storage
+    term:
+      ja: "ファイルストレージ (NAS)"
+      en: "File Storage (NAS)"
+    definition: "ネットワークを介して、サーバーやクライアントにファイル単位でデータへのアクセスを提供するストレージです。"
+    explanation: "ファイルストレージは、データをファイルとフォルダからなる階層構造で管理します。Network Attached Storage (NAS) とも呼ばれ、NFSやSMB/CIFSといったプロトコルを用いてネットワーク経由で共有ファイルシステムを提供します。複数のクライアントが同時に同じファイルにアクセスできるため、ファイル共有や共同作業に適しています。OSからはマウントされたネットワークドライブとして見え、ユーザーやアプリケーションは個々のブロックを意識することなくファイルパスでデータにアクセスできます。"
+    tags: [storage, infrastructure, network]
+    notes:
+      - "NFS (Network File System) や SMB (Server Message Block) などのプロトコルを使用"
+      - "複数のクライアントからの同時アクセスとファイル共有が容易"
+      - "階層的なディレクトリ構造でデータを管理"
+      - "代表例: Amazon EFS, Google Cloud Filestore"
+    url:
+      - "https://en.wikipedia.org/wiki/File_storage"
+
+  - id: lsm-tree
+    term:
+      ja: "LSM-Tree"
+      en: "LSM-Tree"
+    definition: "LSM-Treeは、メモリ→SSTableへまとめ書き＋バックグラウンドのコンパクションで整頓する書き込み最適型の木構造です。"
+    explanation: "Log-Structured Merge-Tree (LSM-Tree) は、書き込みスループットを最大化するために設計されたデータ構造です。書き込みはまずメモリ上のソート済みテーブル（MemTable）に対して行われ、これが一定サイズに達すると、ディスク上の不変なファイル（SSTable）としてフラッシュされます。バックグラウンドでこれらのSSTableをマージ（コンパクション）することで、データの整理と読み取り効率の維持を図ります。読み取り時には複数のSSTableを検索する必要があるため、Bloom Filterなどの補助的なデータ構造がよく使われます。特に書き込みが多いワークロード（ログ記録、時系列データなど）に優れており、ストレージの効率性と耐久性を両立させます。"
+    tags: [db, storage, nosql]
+    notes:
+      - "Bloom Filter併用で読み取り最適化"
+      - "削除はtombstone（論理削除）としてマークされ、コンパクション時に物理削除される"
+      - "書き込み性能に優れる反面、読み取りは複数のSSTableを走査するため複雑になる傾向がある"
+      - "代表的な実装例: Apache Cassandra, Apache HBase, Google Bigtable, RocksDB"
+    url:
+      - "https://en.wikipedia.org/wiki/Log-structured_merge-tree"
+
+  - id: b-tree
+    term:
+      ja: "B-Tree"
+      en: "B-Tree"
+    definition: "B-Treeは、RDBのインデックスで主流の木構造です。"
+    explanation: "B-Treeは、データがソートされた状態で格納されており、特定のキー値や範囲を効率的に検索するのに適しています。階層的な構造を持ち、各ノードが多数の子ノードを持つことができるため、ディスクI/Oの回数を最小限に抑えることができます。バランスの取れた木構造を維持するため、挿入や削除時にはノードの分割やマージが発生し、これがランダム書き込みのパフォーマンスに影響を与える可能性があります。リレーショナルデータベースのインデックスとして広く採用されており、特に読み取り性能と範囲検索に強みがあります。"
+    tags: [db, rdb]
+    notes:
+      - "PostgreSQLのGINインデックスなど、用途に応じて特殊な派生形も多い"
+      - "ノードは通常、ディスクブロックサイズに合わせて最適化される"
+      - "バランス木であるため、検索、挿入、削除の最悪計算量はO(log n)"
+      - "ランダム書き込みが多いと、ノードの分割・結合によるオーバーヘッドが発生しやすい"
+    url:
+      - "https://en.wikipedia.org/wiki/B-tree"
+
+  - id: sstable
+    term:
+      ja: "SSTable (Sorted String Table)"
+      en: "SSTable (Sorted String Table)"
+    definition: "SSTableは、ソート済み・不変のディスクファイルです。"
+    explanation: "SSTableは、キーでソートされたキーバリューペアを格納する、一度書き込んだら変更されない（不変な）ファイルです。LSM-Treeアーキテクチャにおいて、メモリ上の書き込みバッファであるMemTableがいっぱいになると、その内容がSSTableとしてディスクに書き出されます。ファイルがソートされているため、特定のキーの検索や範囲スキャンが効率的に行えます。不変性により、並行処理が容易になり、クラッシュリカバリも簡素化されます。"
+    tags: [storage]
+    notes:
+      - "不変であるため、更新や削除は新しいSSTableに新しい値を書き込むか、削除マーカー（tombstone）を書き込むことで行う"
+      - "LSM-Treeのディスク上の主要なデータ構造"
+      - "ソートされているため、範囲スキャンやマージが効率的"
+      - "コンパクションにより、複数のSSTableがマージされ、最適化される"
+
+  - id: compaction
+    term:
+      ja: "Compaction"
+      en: "Compaction"
+    definition: "Compactionは、複数SSTableをマージ/再ソートして重複や削除を整理するプロセスです。"
+    explanation: "Compactionは、LSM-Treeベースのストレージシステムにおいて、バックグラウンドで実行されるメンテナンスプロセスです。ディスク上に溜まった複数のSSTableを読み込み、マージして新しいSSTableに書き込みます。この過程で、重複するキーの古い値や、削除マーカーが付いたデータが物理的に削除され、ストレージスペースの効率化と読み取り性能の向上が図られます。コンパクションの戦略は、システムのパフォーマンス特性に大きく影響し、書き込み増幅や読み取り増幅とのトレードオフが存在します。"
+    tags: [storage]
+    notes:
+      - "コンパクションの戦略（いつ、どのSSTableをマージするか）は、システムのパフォーマンス特性に大きく影響する"
+      - "ストレージスペースの再利用と読み取り性能の最適化が目的"
+      - "書き込み増幅（Write Amplification）や読み取り増幅（Read Amplification）とのトレードオフがある"
+      - "レベルコンパクションやサイズティアードコンパクションなど、様々な戦略がある"

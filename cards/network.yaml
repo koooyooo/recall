@@ -19,17 +19,32 @@ cards:
     url:
       - "https://en.wikipedia.org/wiki/Load_balancing_(computer_networking)"
 
-  - id: cdn
+  - id: dns
     term:
-      ja: "CDN"
-      en: "CDN (Content Delivery Network)"
-    definition: "CDNは、Webコンテンツをユーザーに近いエッジサーバーにキャッシュし、高速配信する分散ネットワークです。"
-    explanation: "CDNは、Webサイトの静的コンテンツ（画像、動画、CSS、JavaScriptファイルなど）を世界中に分散配置されたエッジサーバー（PoP: Point of Presence）にキャッシュすることで、ユーザーからのリクエストに対して最も近いサーバーからコンテンツを配信する仕組みです。これにより、コンテンツのロード時間を短縮し、ユーザー体験を向上させるとともに、オリジンサーバーへの負荷を軽減します。特にグローバルなユーザーベースを持つWebサービスや、大量のメディアコンテンツを配信するサービスで不可欠な技術です。"
-    tags: [network, caching, performance]
+      ja: "DNS (Domain Name System)"
+      en: "DNS (Domain Name System)"
+    definition: "人間が読みやすいドメイン名（例: www.google.com）を、コンピュータが理解できるIPアドレス（例: 172.217.167.68）に変換するシステムです。"
+    explanation: "DNSは、インターネット上の住所録のような役割を果たします。ユーザーがブラウザにドメイン名を入力すると、DNSリゾルバが階層的に構成されたDNSサーバー群に問い合わせを行い、対応するIPアドレスを取得します。この名前解決のプロセスにより、ユーザーは覚えにくいIPアドレスを意識することなく、ウェブサイトや各種サービスにアクセスできます。DNSのレコードには、IPアドレスを示すAレコードの他に、MX（メールサーバー）、CNAME（別名）など様々な種類があります。"
+    tags: [network, infrastructure]
     notes:
-      - "ユーザーに近いエッジサーバーからコンテンツを配信するため、レイテンシが低減される"
-      - "オリジンサーバーへの負荷を軽減し、スケーラビリティを向上させる"
-      - "DDoS攻撃対策としても機能する場合がある"
-      - "キャッシュの無効化（Purge）やプリフェッチ（Pre-fetching）などの機能を持つ"
+      - "階層的な分散データベースシステムとして実装されている"
+      - "DNSクエリの結果は、パフォーマンス向上のために各レベルでキャッシュされる（TTLが設定されている）"
+      - "DNSラウンドロビンを利用して、簡易的な負荷分散を行うことも可能"
     url:
-      - "https://en.wikipedia.org/wiki/Content_delivery_network"
+      - "https://en.wikipedia.org/wiki/Domain_Name_System"
+
+  - id: tcp-udp
+    term:
+      ja: "TCP vs UDP"
+      en: "TCP vs UDP"
+    definition: "TCPは信頼性を重視したコネクション型のプロトコルであり、UDPは速度を重視したコネクションレス型のプロトコルです。"
+    explanation: "TCP (Transmission Control Protocol) は、データを送信する前に相手と接続を確立し（3ウェイハンドシェイク）、データの到達を順序通りに保証し、失われたパケットは再送します。信頼性が高い反面、オーバーヘッドが大きくなります。HTTP、FTP、SMTPなどで利用されます。
+UDP (User Datagram Protocol) は、接続を確立せず、データを一方的に送りつけます（投げっぱなし）。到達保証や順序保証はなく、信頼性は低いですが、非常に高速で軽量です。DNS、VoIP、オンラインゲーム、ビデオストリーミングなど、速度が重視される場面で利用されます。"
+    tags: [network, protocol]
+    notes:
+      - "TCP: 信頼性、順序保証、フロー制御、輻輳制御あり。コネクション型。"
+      - "UDP: 信頼性、順序保証なし。コネクションレス型。高速・軽量。"
+      - "QUIC（HTTP/3で使用）はUDPをベースにTCPの信頼性機能を取り込んでいる"
+    url:
+      - "https://en.wikipedia.org/wiki/Transmission_Control_Protocol"
+      - "https://en.wikipedia.org/wiki/User_Datagram_Protocol"
