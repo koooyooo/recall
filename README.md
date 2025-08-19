@@ -1,8 +1,38 @@
 <img src="image/top.png" style="width: 60%; height: 60%">
 
-# SDI Flashcards
+# Recall
 
 This project is a command-line flashcard application written in Python, designed to help users study and memorize terms and definitions using a spaced repetition system. The flashcard data is organized into multiple YAML files, allowing for easy management and categorization by genre. The application tracks user progress to prioritize cards due for review.
+
+## Features
+
+The application provides an interactive command-line interface for a flashcard-based learning experience.
+
+### Normal Quiz
+
+In a normal quiz, you are presented with a term and prompted to recall its definition.
+
+<img src="image/quiz.png" style="width: 80%; height: 80%">
+
+After you provide an answer, the correct definition is displayed, along with feedback on whether your answer was correct.
+
+<img src="image/answer.png" style="width: 80%; height: 80%">
+
+### Reverse Quiz
+
+In a reverse quiz, the roles are swapped: you are shown a definition and asked to recall the corresponding term.
+
+<img src="image/rev-quiz.png" style="width: 80%; height: 80%">
+
+Similarly, the correct term is revealed after you submit your answer.
+
+<img src="image/rev-answer.png" style="width: 80%; height: 80%">
+
+### Statistics
+
+You can view your learning progress and statistics for each card.
+
+<img src="image/stats.png" style="width: 80%; height: 80%">
 
 ## Key Technologies
 
