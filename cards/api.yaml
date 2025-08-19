@@ -43,3 +43,43 @@ cards:
       - "代表的な実装例: Nginx, Kong, Amazon API Gateway, Google Cloud Endpoints"
     url:
       - "https://microservices.io/patterns/apigateway.html"
+
+  - id: restful-api
+    term:
+      ja: "RESTful API"
+      en: "RESTful API"
+    definition: "Webの標準技術（HTTP, URIなど）を用いて、リソース指向で設計されたAPIのスタイルです。"
+    explanation: |
+      REST (Representational State Transfer) は、Webサービスの設計原則の集合であり、RESTful APIはその原則に従って構築されたAPIです。
+      HTTPメソッド（GET, POST, PUT, DELETEなど）をリソースに対する操作として使用し、URIでリソースを一意に識別します。
+      ステートレスであること、キャッシュ可能であること、統一インターフェースを持つことなどが特徴です。
+      シンプルで理解しやすく、Webブラウザとの親和性が高いため、広く普及しています。
+    tags: [api, web, architecture]
+    notes:
+      - "HTTPメソッドとURIを適切に利用する"
+      - "ステートレスであるため、サーバー側の負荷が軽減される"
+      - "キャッシュを活用し、パフォーマンスを向上できる"
+      - "マイクロサービス間の通信や、Webアプリケーションのバックエンドとして広く利用される"
+    url:
+      - "https://en.wikipedia.org/wiki/Representational_state_transfer"
+
+  - id: grpc
+    term:
+      ja: "gRPC"
+      en: "gRPC"
+    definition: "Googleが開発した、Protocol Buffersをインターフェース定義言語とし、HTTP/2をトランスポート層に利用する高性能なRPC（Remote Procedure Call）フレームワークです。"
+    explanation: |
+      gRPCは、クライアントとサーバー間でメソッドを直接呼び出すかのように通信できるRPCフレームワークです。
+      Protocol Buffers（Protocol Buffers）でサービスとメッセージのスキーマを定義し、
+      HTTP/2の多重化、ストリーム、ヘッダー圧縮などの機能を利用することで、
+      高いパフォーマンスと効率的な通信を実現します。
+      多言語対応、双方向ストリーミング、認証などの機能も標準で提供されており、
+      マイクロサービス間の通信や、モバイル・IoTデバイスとの連携に適しています。
+    tags: [api, rpc, microservices, network]
+    notes:
+      - "Protocol Buffersによる厳密なスキーマ定義"
+      - "HTTP/2による高性能な通信（多重化、ヘッダー圧縮、ストリーミング）"
+      - "多言語対応で、異なる言語間のサービス連携が容易"
+      - "マイクロサービス間の内部通信や、モバイルアプリのバックエンド通信に利用される"
+    url:
+      - "https://grpc.io/"
