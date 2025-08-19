@@ -1,33 +1,6 @@
-<img src="./image/top.png" style="width: 60%; height: 60%">
-
 # SDI Flashcards
 
 This project is a command-line flashcard application written in Python, designed to help users study and memorize terms and definitions using a spaced repetition system. The flashcard data is organized into multiple YAML files, allowing for easy management and categorization by genre. The application tracks user progress to prioritize cards due for review.
-
-## Usage
-
-### 1. Run
-Run as Flash Cards for Keyword
-
-![Cards Quiz](./image/quiz.png)
-
-<div style="text-align:center">↓</div>
-
-![Cards Answer](./image/answer.png)
-
-### 2. Run with `-r`
-Run with reversed Cards
-
-![Cards Quiz Reversed](./image/rev-quiz.png)
-
-<div style="text-align:center">↓</div>
-
-![Cards Answer Reversed](./image/rev-answer.png)
-
-### 3. Run with `--stats`
-show status
-![Cards Stats](./image/stats.png)
-
 
 ## Key Technologies
 
@@ -65,9 +38,9 @@ You can customize the quiz with the following options:
 
 *   `-f, --file`: Specify the path to the YAML file or directory containing YAML files (default: `cards/`).
 *   `-t, --tags`: Filter the cards by one or more tags (space-separated).
-*   `-n, --count`: Set the number of questions per quiz (default: 15).
-*   `-r, --reverse`: Reverse the quiz direction (show definition, ask for the term).
-*   `-v, --verbose`: Show long description, notes, and URLs for each card.
+*   `-n`, `--count`: Set the number of questions per quiz (default: 15).
+*   `-r`, `--reverse`: Reverse the quiz direction (show definition, ask for the term).
+*   `-v`, `--verbose`: Show long description, notes, and URLs for each card.
 *   `--list`: List all available cards and their tags without starting a quiz.
 *   `--stats`: Show learning statistics.
 

@@ -137,6 +137,14 @@ def due_score(s):
     return (box, -elapsed)  # box昇順、長く出してない順
 
 def quiz(cards, count=20, reverse=False, verbose=False):
+    if reverse:
+        original_card_count = len(cards)
+        cards = [c for c in cards if 'recall_question' in c]
+        if not cards:
+            console.print("[bold yellow]リバースクイズには 'recall_question' キーを持つカードが必要です。対象のカードが見つかりませんでした。[/bold yellow]")
+            return
+        console.print(f"[bold dim]リバースクイズ用に 'recall_question' を持つカード {len(cards)}/{original_card_count} 枚を対象とします。[/bold dim]")
+
     # 出題順：弱いカード優先（box小）
     cards_sorted = sorted(cards, key=lambda c: due_score(c["_state"]))
     pool = cards_sorted[:max(count, 1)]
@@ -163,20 +171,13 @@ def quiz(cards, count=20, reverse=False, verbose=False):
 
             definition = c["definition"].strip()
             
-            # Mask subject if reverse mode is active
             if reverse:
-                # Simple masking: find "は" and replace the part before it with "___"
-                # This is a heuristic and might not be perfect for all Japanese sentence structures.
-                if "は" in definition:
-                    subject_end_index = definition.find("は")
-                    masked_definition = "___" + definition[subject_end_index:]
-                else:
-                    masked_definition = definition # No "は" found, no masking
+                prompt = c['recall_question'].strip()
+                answer = display_term
             else:
-                masked_definition = definition
+                prompt = display_term
+                answer = definition
             
-            prompt, answer = (masked_definition, display_term) if reverse else (display_term, definition)
-
             console.print()
             console.print(Panel(prompt, title=f"[bold cyan]Q: {cid} ({c['_deck_name_ja']} / {c['_deck_name_en']})[/bold cyan]", border_style="cyan"))
             input("↩︎ Enter で解答を表示...")
@@ -184,8 +185,8 @@ def quiz(cards, count=20, reverse=False, verbose=False):
             answer_text = Text(f"👉 {answer}", style="bold green")
             console.print(answer_text)
 
-            if verbose and c.get("long-description"):
-                console.print(Panel(c['long-description'], title="[bold yellow]More Info[/bold yellow]", border_style="yellow", expand=False))
+            if verbose and c.get("explanation"):
+                console.print(Panel(c['explanation'], title="[bold yellow]Explanation[/bold yellow]", border_style="yellow", expand=False))
             notes = c.get("notes")
             if notes:
                 console.print(f"   [dim]💬 Notes:[/dim]")
@@ -237,8 +238,9 @@ def list_cards(cards, verbose=False):
         text.append(f" {c['term']}  ")
         text.append(f"[{tags}]", style="dim")
         console.print(text)
-        if verbose and c.get("long-description"):
-            console.print(f"    [dim]{c['long-description']}[/dim]")
+        if verbose and c.get("explanation"):
+            console.print(f"    [dim]{c['explanation']}[/dim]")
+
 
 def show_stats(cards):
     state = load_state()
