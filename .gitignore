@@ -8,3 +8,11 @@ wheels/
 
 # Virtual environments
 .venv
+
+# 機密情報ファイル
+.env
+*.key
+*.pem
+config.local.*
+secrets/
+private/
