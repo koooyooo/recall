@@ -1,6 +1,6 @@
 <img src="image/top.png" style="width: 60%; height: 60%">
 
-# Recall
+# SDI Flashcards
 
 This project is a command-line flashcard application written in Python, designed to help users study and memorize terms and definitions using a spaced repetition system. The flashcard data is organized into multiple YAML files, allowing for easy management and categorization by genre. The application tracks user progress to prioritize cards due for review.
 
@@ -44,7 +44,7 @@ You can view your learning progress and statistics for each card.
 
 ## Architecture
 
-The application's core logic resides in `sdi-cards.py`. Flashcard data is stored in YAML files within the `cards/` directory (e.g., `cards/general.yaml`, `cards/network.yaml`). The application can load cards from multiple YAML files within a specified directory, allowing for categorization of flashcards by topic or genre. User learning progress is persisted across sessions in a local JSON state file.
+The application's core logic resides in `recall.py`. Flashcard data is stored in YAML files within the `cards/` directory, now organized into more specific categories (e.g., `cards/database.yaml`, `cards/security.yaml`) and a dedicated `cards/google_cloud/` directory for GCP-specific services (e.g., `cards/google_cloud/compute.yaml`). The application can load cards from multiple YAML files within a specified directory, allowing for categorization of flashcards by topic or genre. User learning progress is persisted across sessions in a local JSON state file.
 
 ## Building and Running
 
@@ -58,36 +58,52 @@ uv sync
 
 ### Running the Application
 
-To run the flashcard quiz, execute the `sdi-cards.py` script:
+The `recall.py` script now uses subcommands for different functionalities.
 
 ```bash
-.venv/bin/python sdi-cards.py
+uv run python recall.py <command> [options]
 ```
 
-### Command-line Options
+### Commands and Options
 
-You can customize the quiz with the following options:
+*   **`quiz`**: Start a flashcard quiz.
+    *   `-n, --count`: Set the number of questions per quiz (default: 15).
+    *   `-r, --reverse`: Reverse quiz direction (show definition, ask for the term).
+    *   `-v, --verbose`: Show long description, notes, and URLs for each card.
+*   **`list`**: List all available cards.
+    *   `-v, --verbose`: Show long description for each card.
+*   **`stats`**: Show learning statistics.
+*   **`info`**: Show information about flashcard files and card counts.
+
+**Global Options (can be used with any command):**
 
 *   `-f, --file`: Specify the path to the YAML file or directory containing YAML files (default: `cards/`).
-*   `-t, --tags`: Filter the cards by one or more tags (space-separated).
-*   `-n`, `--count`: Set the number of questions per quiz (default: 15).
-*   `-r`, `--reverse`: Reverse the quiz direction (show definition, ask for the term).
-*   `-v`, `--verbose`: Show long description, notes, and URLs for each card.
-*   `--list`: List all available cards and their tags without starting a quiz.
-*   `--stats`: Show learning statistics.
+*   `-t, --tags`: Filter cards by one or more tags (space-separated).
 
 **Examples:**
 
 To start a quiz with 10 questions tagged with "gcp" and "db" from the default `cards/` directory:
 
 ```bash
-.venv/bin/python sdi-cards.py -n 10 -t gcp db
+uv run python recall.py quiz -n 10 -t gcp db
 ```
 
-To start a quiz with verbose output, showing long descriptions, notes, and URLs:
+To start a reverse quiz with verbose output:
 
 ```bash
-.venv/bin/python sdi-cards.py -n 1 -v
+uv run python recall.py quiz -r -v
+```
+
+To list all cards in the `cards/google_cloud/compute.yaml` file:
+
+```bash
+uv run python recall.py list -f cards/google_cloud/compute.yaml
+```
+
+To show information about your flashcard files:
+
+```bash
+uv run python recall.py info
 ```
 
 ## Development Conventions

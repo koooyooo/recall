@@ -1,9 +1,10 @@
 .PHONY: run
 
 run:
-	@ uv run -- sdi-cards.py --verbose
+	@ uv run -- recall.py quiz --verbose
 rev:
-	@ uv run -- sdi-cards.py --verbose -r
+	@ uv run -- recall.py quiz --verbose -r
 stats:
-	@ uv run -- sdi-cards.py --verbose --stats
-
+	@ uv run -- recall.py stats 
+info:
+	@ uv run -- recall.py info

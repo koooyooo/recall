@@ -1,4 +1,4 @@
-# Recall
+# SDI フラッシュカード
 
 <img src="image/top.png" style="width: 60%; height: 60%">
 
@@ -44,7 +44,7 @@
 
 ## アーキテクチャ
 
-アプリケーションのコアロジックは `sdi-cards.py` にあります。フラッシュカードデータは `cards/` ディレクトリ内の YAML ファイル（例: `cards/general.yaml`、`cards/network.yaml`）に保存されます。アプリケーションは、指定されたディレクトリ内の複数の YAML ファイルからカードを読み込むことができ、フラッシュカードをトピックやジャンルごとに分類できます。ユーザーの学習進捗は、ローカルの JSON 状態ファイルにセッション間で永続化されます。
+アプリケーションのコアロジックは `recall.py` にあります。フラッシュカードデータは `cards/` ディレクトリ内の YAML ファイルに保存され、より具体的なカテゴリ（例: `cards/database.yaml`、`cards/security.yaml`）や、GCP固有のサービスのための専用ディレクトリ `cards/google_cloud/`（例: `cards/google_cloud/compute.yaml`）に整理されています。アプリケーションは、指定されたディレクトリ内の複数の YAML ファイルからカードを読み込むことができ、フラッシュカードをトピックやジャンルごとに分類できます。ユーザーの学習進捗は、ローカルの JSON 状態ファイルにセッション間で永続化されます。
 
 ## ビルドと実行
 
@@ -58,36 +58,52 @@ uv sync
 
 ### アプリケーションの実行
 
-フラッシュカードクイズを実行するには、`sdi-cards.py` スクリプトを実行します。
+`recall.py` スクリプトは、異なる機能のためにサブコマンドを使用するようになりました。
 
 ```bash
-.venv/bin/python sdi-cards.py
+uv run python recall.py <コマンド> [オプション]
 ```
 
-### コマンドラインオプション
+### コマンドとオプション
 
-以下のオプションでクイズをカスタマイズできます。
+*   **`quiz`**: フラッシュカードクイズを開始します。
+    *   `-n, --count`: 質問数 (デフォルト: 15)。
+    *   `-r, --reverse`: クイズの方向を反転 (定義 -> 用語)。
+    *   `-v, --verbose`: 詳細な説明、ノート、URLを表示。
+*   **`list`**: 利用可能なカードを一覧表示します。
+    *   `-v, --verbose`: 各カードの詳細な説明を表示。
+*   **`stats`**: 学習統計を表示します。
+*   **`info`**: フラッシュカードファイルとカード数の情報を表示します。
 
-*   `-f, --file`: YAML ファイルまたは YAML ファイルを含むディレクトリへのパスを指定します (デフォルト: `cards/`)。
-*   `-t, --tags`: 1つ以上のタグでカードをフィルタリングします (スペース区切り)。
-*   `-n, --count`: クイズあたりの質問数を設定します (デフォルト: 15)。
-*   `-r, --reverse`: クイズの方向を反転します (定義を表示し、用語を尋ねます)。
-*   `-v, --verbose`: 各カードの長い説明、ノート、URLを表示します。
-*   `--list`: クイズを開始せずに、利用可能なすべてのカードとそのタグを一覧表示します。
-*   `--stats`: 学習統計を表示します。
+**グローバルオプション (どのコマンドでも使用可能):**
+
+*   `-f, --file`: YAML ファイルまたは YAML ファイルを含むディレクトリへのパス (デフォルト: `cards/`)。
+*   `-t, --tags`: タグでカードをフィルタリング (スペース区切り)。
 
 **例:**
 
 デフォルトの `cards/` ディレクトリから「gcp」と「db」のタグが付いた10問のクイズを開始するには:
 
 ```bash
-.venv/bin/python sdi-cards.py -n 10 -t gcp db
+uv run python recall.py quiz -n 10 -t gcp db
 ```
 
-長い説明、ノート、URLを表示する詳細出力でクイズを開始するには:
+詳細出力で逆クイズを開始するには:
 
 ```bash
-.venv/bin/python sdi-cards.py -n 1 -v
+uv run python recall.py quiz -r -v
+```
+
+`cards/google_cloud/compute.yaml` ファイル内のすべてのカードを一覧表示するには:
+
+```bash
+uv run python recall.py list -f cards/google_cloud/compute.yaml
+```
+
+フラッシュカードファイルに関する情報を表示するには:
+
+```bash
+uv run python recall.py info
 ```
 
 ## 開発規約
