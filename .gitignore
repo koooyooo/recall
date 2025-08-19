@@ -16,3 +16,6 @@ wheels/
 config.local.*
 secrets/
 private/
+
+commit_message.txt
+

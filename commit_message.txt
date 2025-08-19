@@ -1,4 +1,0 @@
-refactor(cards): Format explanation fields to literal style
-
-- Convert all 'explanation' fields in YAML card files to 'explanation: |' literal style.
-- Improve readability by adding appropriate line breaks within explanations.
