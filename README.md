@@ -1,6 +1,6 @@
 <img src="image/top.png" style="width: 60%; height: 60%">
 
-# SDI Flashcards
+# Flashcards
 
 This project is a command-line flashcard application written in Python, designed to help users study and memorize terms and definitions using a spaced repetition system. The flashcard data is organized into multiple YAML files, allowing for easy management and categorization by genre. The application tracks user progress to prioritize cards due for review.
 
@@ -40,7 +40,7 @@ You can view your learning progress and statistics for each card.
 *   **PyYAML:** Used for parsing YAML card data.
 *   **rich:** For rich text and beautiful terminal output.
 *   **uv:** For efficient dependency management.
-*   **JSON:** User's progress and state are stored in a JSON file (`~/.sdi_cards_state.json`).
+*   **JSON:** User's progress and state are stored in a JSON file (`~/.cards_state.json`).
 
 ## Architecture
 
@@ -97,7 +97,7 @@ uv run python recall.py quiz -r -v
 To list all cards in the `cards/google_cloud/compute.yaml` file:
 
 ```bash
-uv run python recall.py list -f cards/google_cloud/compute.yaml
+uv run python recall.py list -p cards/google_cloud/compute.yaml
 ```
 
 To show information about your flashcard files:
@@ -113,5 +113,5 @@ uv run python recall.py info
     *   **`meta.deck`**: The deck name is now an object with `ja` (Japanese) and `en` (English) keys, allowing for bilingual representation.
     *   **`notes`**: The `notes` field is a list of strings, allowing for multiple distinct notes per card.
     *   **`url`**: The `url` field is also a list of strings, enabling the inclusion of multiple reference URLs (e.g., official website, GitHub repository).
-*   **State Management:** User progress is stored locally in the user's home directory (`~/.sdi_cards_state.json`), allowing the learning state to persist across sessions.
+*   **State Management:** User progress is stored locally in the user's home directory (`~/.cards_state.json`), allowing the learning state to persist across sessions.
 *   **Testing:** There are no automated tests in the project. Manual verification is performed by running the application with various options.

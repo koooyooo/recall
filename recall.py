@@ -16,7 +16,7 @@ except ImportError:
     print("Please: pip install rich", file=sys.stderr)
     sys.exit(1)
 
-STATE_PATH = os.path.expanduser("~/.sdi_cards_state.json")
+STATE_PATH = os.path.expanduser("~/.cards_state.json")
 console = Console()
 
 def load_cards(path, tags=None):
@@ -358,7 +358,7 @@ def main():
     parser = argparse.ArgumentParser(description="SDI Flashcards (YAML-driven)")
     
     # Global arguments
-    parser.add_argument("-f", "--file", default="cards/", help="YAML file or directory path (default: cards/)")
+    parser.add_argument("-p", "--path", default="cards/", help="YAML file or directory path (default: cards/)")
     parser.add_argument("-t", "--tags", nargs="*", help="Filter by tags (space-separated)")
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -382,25 +382,25 @@ def main():
     args = parser.parse_args()
 
     if args.command == "quiz":
-        cards = load_cards(args.file, tags=args.tags)
+        cards = load_cards(args.path, tags=args.tags)
         if not cards:
             console.print("[bold red]No cards found. Check YAML or tag filter.[/bold red]")
             sys.exit(1)
         quiz(cards, count=args.count, reverse=args.reverse, verbose=args.verbose)
     elif args.command == "list":
-        cards = load_cards(args.file, tags=args.tags)
+        cards = load_cards(args.path, tags=args.tags)
         if not cards:
             console.print("[bold red]No cards found. Check YAML or tag filter.[/bold red]")
             sys.exit(1)
         list_cards(cards, verbose=args.verbose)
     elif args.command == "stats":
-        cards = load_cards(args.file, tags=args.tags)
+        cards = load_cards(args.path, tags=args.tags)
         if not cards:
             console.print("[bold red]No cards found. Check YAML or tag filter.[/bold red]")
             sys.exit(1)
         show_stats(cards)
     elif args.command == "info":
-        show_info(args.file) # Info command only needs the file path, not cards loaded
+        show_info(args.path) # Info command only needs the file path, not cards loaded
     else:
         parser.print_help()
 

@@ -40,7 +40,7 @@
 *   **PyYAML:** YAML カードデータの解析に使用。
 *   **rich:** リッチテキストと美しいターミナル出力用。
 *   **uv:** 効率的な依存関係管理用。
-*   **JSON:** ユーザーの進捗と状態は JSON ファイル (`~/.sdi_cards_state.json`) に保存されます。
+*   **JSON:** ユーザーの進捗と状態は JSON ファイル (`~/.cards_state.json`) に保存されます。
 
 ## アーキテクチャ
 
@@ -77,7 +77,7 @@ uv run python recall.py <コマンド> [オプション]
 
 **グローバルオプション (どのコマンドでも使用可能):**
 
-*   `-f, --file`: YAML ファイルまたは YAML ファイルを含むディレクトリへのパス (デフォルト: `cards/`)。
+*   `-p, --path`: YAML ファイルまたは YAML ファイルを含むディレクトリへのパス (デフォルト: `cards/`)。
 *   `-t, --tags`: タグでカードをフィルタリング (スペース区切り)。
 
 **例:**
@@ -97,7 +97,7 @@ uv run python recall.py quiz -r -v
 `cards/google_cloud/compute.yaml` ファイル内のすべてのカードを一覧表示するには:
 
 ```bash
-uv run python recall.py list -f cards/google_cloud/compute.yaml
+uv run python recall.py list -p cards/google_cloud/compute.yaml
 ```
 
 フラッシュカードファイルに関する情報を表示するには:
@@ -113,5 +113,5 @@ uv run python recall.py info
     *   **`meta.deck`**: デッキ名は、バイリンガル表現を可能にする `ja` (日本語) と `en` (英語) のキーを持つオブジェクトになりました。
     *   **`notes`**: `notes` フィールドは文字列のリストであり、カードごとに複数の異なるノートを記述できます。
     *   **`url`**: `url` フィールドも文字列のリストであり、複数の参照 URL (例: 公式ウェブサイト、GitHub リポジトリ) を含めることができます。
-*   **状態管理:** ユーザーの進捗は、ユーザーのホームディレクトリ (`~/.sdi_cards_state.json`) にローカルに保存され、学習状態がセッション間で永続化されます。
+*   **状態管理:** ユーザーの進捗は、ユーザーのホームディレクトリ (`~/.cards_state.json`) にローカルに保存され、学習状態がセッション間で永続化されます。
 *   **テスト:** プロジェクトには自動テストがありません。手動での検証は、様々なオプションでアプリケーションを実行することで行われます。
