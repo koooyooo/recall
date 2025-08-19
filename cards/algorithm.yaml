@@ -61,3 +61,33 @@ cards:
       - "LSM-Treeの読み取り性能向上に貢献"
     url:
       - "https://en.wikipedia.org/wiki/Bloom_filter"
+
+  - id: consistent-hashing
+    term:
+      ja: "Consistent Hashing (一貫性ハッシュ)"
+      en: "Consistent Hashing"
+    definition: "ノードの追加や削除があっても、キーとノードのマッピングの変更を最小限に抑えるハッシュ手法です。"
+    explanation: "Consistent Hashingは、分散キャッシュや分散データベースなどで、ノードの追加・削除時にデータ再配置（リシャーディング）のコストを最小限に抑えるために使用されます。通常のハッシュではノード数が変わるとほとんど全てのキーのマッピングが変更されますが、Consistent Hashingでは、ハッシュリング上にキーとノードを配置し、ノードの追加・削除があっても影響を受けるのはリング上の隣接ノードにマッピングされたキーのみとなります。これにより、大規模なデータ再配置を避け、システムの可用性とスケーラビリティを向上させます。"
+    tags: [algorithm, distributed, caching]
+    notes:
+      - "ハッシュリング（円環）上にキーとノードを配置する"
+      - "仮想ノード（Virtual Nodes）を導入することで、負荷分散の偏りを軽減できる"
+      - "ノードの追加・削除時のデータ移動量を最小化する"
+      - "代表例: Dynamo, Cassandra, Riakなどの分散システム"
+    url:
+      - "https://en.wikipedia.org/wiki/Consistent_hashing"
+
+  - id: merkle-tree
+    term:
+      ja: "Merkle Tree (ハッシュツリー)"
+      en: "Merkle Tree"
+    definition: "データのブロックのハッシュ値を階層的に結合して作られるツリー構造で、データの整合性や変更を効率的に検証するために使用されます。"
+    explanation: "Merkle Treeは、リーフノードが個々のデータブロックのハッシュ値を持ち、親ノードがその子ノードのハッシュ値を結合したハッシュ値を持つツリー構造です。ツリーのルートにあるハッシュ値（Merkle Root）は、全てのデータブロックの整合性を代表します。データブロックの一部が変更された場合、その変更はツリーを遡ってルートハッシュに伝播するため、ルートハッシュを比較するだけでデータ全体の整合性を効率的に検証できます。また、特定のデータブロックの存在証明や、異なるデータセット間の差分検出にも利用されます。"
+    tags: [algorithm, distributed, data-structure, security]
+    notes:
+      - "ブロックチェーン技術の基盤の一つ（トランザクションの整合性検証に利用）"
+      - "P2Pネットワークでのファイル同期（例: BitTorrent）や、分散データベースでのデータ整合性チェックに利用される"
+      - "データの一部が変更された場合でも、変更された部分のみを再計算すればよいため効率的"
+      - "ルートハッシュのみを共有することで、大量のデータを効率的に検証できる"
+    url:
+      - "https://en.wikipedia.org/wiki/Merkle_tree"
