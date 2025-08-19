@@ -1,0 +1,26 @@
+feat: Enhance card data structure and quiz functionality
+
+This commit introduces several enhancements to the flashcard application:
+
+- **Multi-file card loading**:
+  - The application now supports loading cards from multiple YAML files within a specified directory (default: `cards/`). This allows for better organization of flashcards by topic or genre.
+  - The `load_cards` function in `sdi-cards.py` was refactored to recursively find and aggregate cards from all `.yaml` files in the given path.
+  - The `--file` argument in `argparse` was updated to accept a directory path, with `cards/` as the new default.
+
+- **Enhanced card fields for richer data**:
+  - **`notes` field**: Changed from a single string to a list of strings in `cards/*.yaml`, enabling multiple distinct notes per card. The display logic in `sdi-cards.py` was updated to iterate and display each note.
+  - **`url` field**: Changed from a single string to a list of strings in `cards/*.yaml`, allowing for multiple reference URLs (e.g., official website, GitHub repository). The display logic in `sdi-cards.py` was updated to iterate and display each URL.
+  - **`meta.deck` field**: Changed from a single string to an object with `ja` (Japanese) and `en` (English) keys in `cards/*.yaml`, enabling bilingual deck names. The `load_cards` function now extracts both, and the `quiz` function displays them as "Japanese Deck Name / English Deck Name".
+  - **`term` field**: Changed from a single string to an object with `ja` (Japanese) and `en` (English) keys in `cards/*.yaml`. The `load_cards` function now extracts both, and the `quiz` function displays terms as "Japanese Term (English Term)".
+
+- **Enhanced `definition` and masking for reverse quiz**:
+  - The `definition` field in `cards/*.yaml` was restructured to follow the "XXXはOOOです。" pattern, making definitions more consistent and derivable from the term.
+  - When the reverse quiz option (`-r`) is active, the subject "XXX" in the definition is now masked with "___". This was implemented with a heuristic approach in `sdi-cards.py` by identifying the part before the "は" particle.
+
+- **Updated documentation and tooling**:
+  - A comprehensive `README.md` was created, detailing all new features, usage instructions, and development conventions.
+  - The project's dependency management was switched from `pip` to `uv`, and `uv sync` is now the recommended command for installing dependencies.
+
+- **Data migration**:
+  - All existing cards in `cards/general.yaml` were migrated to the new data structures for `deck`, `term`, `notes`, `url`, and `definition`.
+  - New YAML files (`cards/network.yaml`, `cards/messaging.yaml`, `cards/api.yaml`, `cards/architecture.yaml`, `cards/consistency.yaml`, `cards/data_processing.yaml`) were created to demonstrate the multi-file structure and add more SDI-related keywords.

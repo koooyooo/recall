@@ -1,6 +1,33 @@
+<img src="./image/top.png" style="width: 60%; height: 60%">
+
 # SDI Flashcards
 
 This project is a command-line flashcard application written in Python, designed to help users study and memorize terms and definitions using a spaced repetition system. The flashcard data is organized into multiple YAML files, allowing for easy management and categorization by genre. The application tracks user progress to prioritize cards due for review.
+
+## Usage
+
+### 1. Run
+Run as Flash Cards for Keyword
+
+![Cards Quiz](./image/quiz.png)
+
+<div style="text-align:center">↓</div>
+
+![Cards Answer](./image/answer.png)
+
+### 2. Run with `-r`
+Run with reversed Cards
+
+![Cards Quiz Reversed](./image/rev-quiz.png)
+
+<div style="text-align:center">↓</div>
+
+![Cards Answer Reversed](./image/rev-answer.png)
+
+### 3. Run with `--stats`
+show status
+![Cards Stats](./image/stats.png)
+
 
 ## Key Technologies
 
