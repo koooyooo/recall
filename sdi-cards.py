@@ -311,28 +311,98 @@ def show_stats(cards):
         tag_table.add_row(tag, str(stats['cards']), str(stats['seen']), f"{accuracy:.1f}%")
     console.print(tag_table)
 
-def main():
-    ap = argparse.ArgumentParser(description="SDI Flashcards (YAML-driven)")
-    ap.add_argument("-f", "--file", default="cards/", help="YAML file or directory path")
-    ap.add_argument("-t", "--tags", nargs="*", help="Filter by tags (space-separated)")
-    ap.add_argument("-n", "--count", type=int, default=15, help="Number of questions")
-    ap.add_argument("-r", "--reverse", action="store_true", help="Reverse (definition -> term)")
-    ap.add_argument("-v", "--verbose", action="store_true", help="Show long description")
-    ap.add_argument("--list", action="store_true", help="List cards and exit")
-    ap.add_argument("--stats", action="store_true", help="Show learning statistics")
-    args = ap.parse_args()
+def show_info(path):
+    console.print(f"[bold cyan]Flashcard Info for: {path}[/bold cyan]")
+    table = Table(title="[bold magenta]Card Files Overview[/bold magenta]")
+    table.add_column("File Path", style="cyan", no_wrap=True)
+    table.add_column("Card Count", style="green")
 
-    cards = load_cards(args.file, tags=args.tags)
-    if not cards:
-        console.print("[bold red]No cards found. Check YAML or tag filter.[/bold red]")
-        sys.exit(1)
+    total_cards_across_all_files = 0
 
-    if args.list:
-        list_cards(cards, verbose=args.verbose)
-    elif args.stats:
-        show_stats(cards)
+    if os.path.isdir(path):
+        for root, _, files in os.walk(path):
+            for file in files:
+                if file.endswith((".yaml", ".yml")):
+                    filepath = os.path.join(root, file)
+                    try:
+                        with open(filepath, "r", encoding="utf-8") as f:
+                            data = yaml.safe_load(f)
+                            if data and "cards" in data:
+                                card_count = len(data["cards"])
+                                table.add_row(filepath, str(card_count))
+                                total_cards_across_all_files += card_count
+                            else:
+                                table.add_row(filepath, "0 (No cards found)")
+                    except Exception as e:
+                        table.add_row(filepath, f"[red]Error: {e}[/red]")
+    elif os.path.isfile(path) and path.endswith((".yaml", ".yml")):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+                if data and "cards" in data:
+                    card_count = len(data["cards"])
+                    table.add_row(path, str(card_count))
+                    total_cards_across_all_files += card_count
+                else:
+                    table.add_row(path, "0 (No cards found)")
+        except Exception as e:
+            table.add_row(path, f"[red]Error: {e}[/red]")
     else:
+        console.print(f"[bold red]Invalid path: {path}. Must be a YAML file or a directory containing YAML files.[/bold red]")
+        return
+
+    console.print(table)
+    console.print(f"[bold green]Total cards across all files: {total_cards_across_all_files}[/bold green]")
+
+def main():
+    parser = argparse.ArgumentParser(description="SDI Flashcards (YAML-driven)")
+    
+    # Global arguments
+    parser.add_argument("-f", "--file", default="cards/", help="YAML file or directory path (default: cards/)")
+    parser.add_argument("-t", "--tags", nargs="*", help="Filter by tags (space-separated)")
+
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # Quiz command
+    quiz_parser = subparsers.add_parser("quiz", help="Start a flashcard quiz")
+    quiz_parser.add_argument("-n", "--count", type=int, default=15, help="Number of questions (default: 15)")
+    quiz_parser.add_argument("-r", "--reverse", action="store_true", help="Reverse quiz direction (definition -> term)")
+    quiz_parser.add_argument("-v", "--verbose", action="store_true", help="Show long description, notes, and URLs for each card")
+
+    # List command
+    list_parser = subparsers.add_parser("list", help="List all available cards")
+    list_parser.add_argument("-v", "--verbose", action="store_true", help="Show long description for each card")
+
+    # Stats command
+    stats_parser = subparsers.add_parser("stats", help="Show learning statistics")
+
+    # Info command (new)
+    info_parser = subparsers.add_parser("info", help="Show information about flashcard files and card counts")
+
+    args = parser.parse_args()
+
+    if args.command == "quiz":
+        cards = load_cards(args.file, tags=args.tags)
+        if not cards:
+            console.print("[bold red]No cards found. Check YAML or tag filter.[/bold red]")
+            sys.exit(1)
         quiz(cards, count=args.count, reverse=args.reverse, verbose=args.verbose)
+    elif args.command == "list":
+        cards = load_cards(args.file, tags=args.tags)
+        if not cards:
+            console.print("[bold red]No cards found. Check YAML or tag filter.[/bold red]")
+            sys.exit(1)
+        list_cards(cards, verbose=args.verbose)
+    elif args.command == "stats":
+        cards = load_cards(args.file, tags=args.tags)
+        if not cards:
+            console.print("[bold red]No cards found. Check YAML or tag filter.[/bold red]")
+            sys.exit(1)
+        show_stats(cards)
+    elif args.command == "info":
+        show_info(args.file) # Info command only needs the file path, not cards loaded
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
     main()

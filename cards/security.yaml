@@ -19,21 +19,6 @@ cards:
     url:
       - "https://cloud.google.com/architecture/rate-limiting-strategies-techniques"
 
-  - id: gcp-armor
-    term:
-      ja: "Cloud Armor"
-      en: "Cloud Armor"
-    definition: "Googleのグローバルネットワークのエッジで、DDoS攻撃やWebアプリケーションへの攻撃からシステムを保護するセキュリティサービスです。"
-    explanation: "Cloud Armorは、Googleが自社のサービス（Google検索、Gmailなど）を保護しているのと同じインフラストラクチャ上で動作するWAF（Web Application Firewall）およびDDoS対策サービスです。主にグローバル外部HTTP(S)ロードバランサと連携して使用します。IPアドレスや地域に基づいたアクセス制御、SQLインジェクションやクロスサイトスクリプティングなどのOWASP Top 10に挙げられる攻撃の検知・ブロック、カスタムルールの作成などが可能です。"
-    tags: [gcp, security, network, waf]
-    notes:
-      - "L3/L4 DDoS攻撃とL7アプリケーション攻撃の両方から保護する"
-      - "事前構成されたWAFルールと、カスタマイズ可能なセキュリティポリシー"
-      - "Adaptive Protection機能は、機械学習を用いて新たな脅威を自動的に検知・分析する"
-      - "Cloud LoggingやCloud Monitoringと統合され、詳細な可視性を提供する"
-    url:
-      - "https://cloud.google.com/armor"
-
   - id: waf
     term:
       ja: "WAF (Web Application Firewall)"
