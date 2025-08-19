@@ -1,0 +1,64 @@
+meta:
+  deck:
+    ja: "GCP コンピューティング"
+    en: "GCP Compute"
+  lang: "ja"
+cards:
+  - id: gce
+    term:
+      ja: "Compute Engine (GCE)"
+      en: "Compute Engine (GCE)"
+    definition: "Google Cloud上で仮想マシン（VM）を作成・実行できる、IaaS（Infrastructure as a Service）です。"
+    explanation: "Compute Engineは、LinuxやWindows Serverなどの仮想マシンインスタンスをオンデマンドで利用できるサービスです。マシンスペック（CPU, メモリ）、OS、ストレージなどを柔軟にカスタマイズでき、完全な制御が必要な従来のアプリケーションや、特定のOSに依存するワークロードに適しています。スケーリングやネットワーク設定などを手動またはインフラ構成管理ツールで行う必要があります。"
+    tags: [gcp, compute, iaas]
+    notes:
+      - "最も基本的なコンピューティングリソースで、自由度が高い"
+      - "プリエンプティブルVMを利用すると、低コストでVMを利用できるが、予告なく停止される可能性がある"
+      - "マネージドインスタンスグループ（MIG）を使うと、オートスケーリングや自動修復が可能"
+    url:
+      - "https://cloud.google.com/compute"
+
+  - id: gke
+    term:
+      ja: "Google Kubernetes Engine (GKE)"
+      en: "Google Kubernetes Engine (GKE)"
+    definition: "Google Cloudが提供する、本番環境に対応したマネージドKubernetesサービスです。"
+    explanation: "GKEは、コンテナ化されたアプリケーションのデプロイ、管理、スケーリングを自動化するためのプラットフォームです。コントロールプレーンの管理（アップグレード、パッチ適用、監視など）をGoogleが担当するため、ユーザーはワーカーノードとアプリケーションの運用に集中できます。Autopilotモードではノード管理も不要になり、よりサーバーレスに近い運用が可能です。マイクロサービスアーキテクチャの実行基盤として広く利用されています。"
+    tags: [gcp, compute, container, kubernetes]
+    notes:
+      - "コンテナオーケストレーションのデファクトスタンダードであるKubernetesのマネージドサービス"
+      - "AutopilotモードとStandardモードの2つの運用モードがある"
+      - "VPCネイティブクラスタにより、PodのIPアドレスがVPC内で直接ルーティング可能になる"
+      - "Cloud BuildやArtifact Registryと連携し、CI/CDパイプラインを構築しやすい"
+    url:
+      - "https://cloud.google.com/kubernetes-engine"
+
+  - id: cloud-run
+    term:
+      ja: "Cloud Run"
+      en: "Cloud Run"
+    definition: "コンテナイメージをサーバーレスで実行できるプラットフォームです。"
+    explanation: "Cloud Runは、HTTPリクエストに応じてコンテナを自動的に起動・スケールさせるフルマネージドのコンピューティングプラットフォームです。リクエストがない間はコンテナを0にスケールダウンするため、コスト効率に優れています。インフラ管理が不要で、開発者はコンテナイメージを用意するだけでアプリケーションをデプロイできます。Webサイト、APIサーバー、バックエンド処理など、ステートレスなHTTPベースのアプリケーションに最適です。"
+    tags: [gcp, compute, serverless, container]
+    notes:
+      - "Knativeをベースに構築されている"
+      - "リクエストがない場合はゼロにスケールするため、コスト効率が非常に高い"
+      - "VPCコネクタを利用して、VPC内のリソースにアクセス可能"
+      - "Cloud SQLやMemorystoreなど、他のGCPサービスと容易に連携できる"
+    url:
+      - "https://cloud.google.com/run"
+
+  - id: cloud-functions
+    term:
+      ja: "Cloud Functions"
+      en: "Cloud Functions"
+    definition: "イベント駆動型のコードをサーバーレスで実行する、FaaS（Function as a Service）です。"
+    explanation: "Cloud Functionsは、特定のイベント（HTTPリクエスト、Cloud Storageへのファイルアップロード、Pub/Subメッセージなど）をトリガーとして、短いコードスニペット（関数）を実行するサービスです。インフラのプロビジョニングや管理は一切不要で、関数単位でデプロイします。他のGCPサービスと連携する「グルーコード」や、軽量なAPI、リアルタイムのデータ処理などに適しています。"
+    tags: [gcp, compute, serverless, faas]
+    notes:
+      - "特定のイベントをトリガーにコードを実行する"
+      - "Cloud Runよりもさらに小さな単位（関数）でコードを管理する"
+      - "実行時間やリソースに制限があるため、長時間の処理には向かない"
+      - "第2世代ではCloud Runを基盤としており、より長時間の実行や多くの同時実行が可能になった"
+    url:
+      - "https://cloud.google.com/functions"

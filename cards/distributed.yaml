@@ -158,3 +158,18 @@ cards:
       - "代表例: Cassandraのノード間通信、Consulのメンバーシップ管理"
     url:
       - "https://en.wikipedia.org/wiki/Gossip_protocol"
+
+  - id: service-discovery
+    term:
+      ja: "サービスディスカバリー"
+      en: "Service Discovery"
+    definition: "マイクロサービスアーキテクチャにおいて、各サービスが他のサービスのネットワーク上の場所（IPアドレスとポート）を動的に見つけるための仕組みです。"
+    explanation: "クラウド環境では、スケーリングや障害対応のためにサービスのインスタンスが頻繁に追加・削除され、IPアドレスは常に変動します。サービスディスカバリーは、このような動的な環境において、サービス間の通信を可能にするための重要なコンポーネントです。サービスは起動時に自身の場所を「サービスレジストリ」に登録し、他のサービスを呼び出す際にはレジストリに問い合わせて現在の場所を取得します。これにより、設定ファイルなどにIPアドレスをハードコーディングする必要がなくなります。"
+    tags: [distributed, microservices, architecture, reliability]
+    notes:
+      - "クライアントサイドディスカバリーとサーバーサイドディスカバリーの2つの主要なパターンがある"
+      - "サービスレジストリ（例: Consul, etcd, ZooKeeper）が中心的な役割を担う"
+      - "ヘルスチェックと連携し、異常なインスタンスを自動的に登録から除外する"
+      - "Kubernetesなどのコンテナオーケストレーションシステムには、サービスディスカバリー機能が組み込まれている"
+    url:
+      - "https://microservices.io/patterns/service-discovery.html"

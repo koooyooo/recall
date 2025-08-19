@@ -57,3 +57,29 @@ cards:
       - "代表的な実装ライブラリ: Hystrix, Resilience4j, Polly"
     url:
       - "https://microservices.io/patterns/reliability/circuit-breaker.html"
+
+  - id: mttr
+    term:
+      ja: "MTTR (平均修復時間)"
+      en: "MTTR (Mean Time To Recovery)"
+    definition: "システム障害が発生してから、完全に修復されるまでの平均時間です。"
+    explanation: "MTTRは、システムの信頼性と保守性を示す重要な指標です。障害の検知、診断、修正、そしてシステムの正常な稼働状態への復帰までの一連のプロセスにかかる時間を含みます。SREプラクティスにおいて、MTTRを短縮することは、サービスの可用性を高め、ユーザーへの影響を最小限に抑える上で極めて重要です。MTTRを改善するためには、効果的な監視、迅速なアラート、自動化された復旧プロセス（自動フェイルオーバーなど）、そして明確なインシデント対応手順などが求められます。"
+    tags: [sre, reliability, monitoring]
+    notes:
+      - "MTTR = 障害検知時間 + 診断時間 + 修復時間 + 検証時間"
+      - "MTBF (Mean Time Between Failures, 平均故障間隔) と合わせて、システムの全体的な信頼性を評価するために使われる"
+      - "MTTRの短縮は、SLO（サービスレベル目標）を達成するための重要な要素"
+    url:
+      - id: gcp-ops-suite
+    term:
+      ja: "Google Cloud's operations suite (Stackdriver)"
+      en: "Google Cloud's operations suite (Stackdriver)"
+    definition: "GCPおよびハイブリッド環境向けの、モニタリング、ロギング、トレース、プロファイリングなどを統合した可観測性サービス群です。"
+    explanation: "旧称Stackdriverとして知られていたこのスイートは、システムの健全性、パフォーマンス、可用性を維持するための包括的な機能を提供します。\n- Cloud Monitoring: メトリクスを収集、可視化し、ダッシュボードやアラートを作成します。\n- Cloud Logging: アプリケーションやインフラからのログを一元的に収集、検索、分析します。\n- Cloud Trace: リクエストがシステムを横断する際のレイテンシを追跡し、パフォーマンスのボトルネックを特定します。\n- Cloud Profiler: 本番環境で実行中のコードのパフォーマンスを継続的に分析し、CPUやメモリ使用量の多い箇所を特定します。"
+    tags: [gcp, sre, observability, monitoring, logging, tracing]
+    notes:
+      - "可観測性の3本柱（メトリクス、ログ、トレース）をカバーする"
+      - "GCPサービスだけでなく、AWSやオンプレミスのサーバーからもデータを収集できる"
+      - "SLOモニタリング機能により、サービスの信頼性を定量的に管理できる"
+    url:
+      - "https://cloud.google.com/products/operations"

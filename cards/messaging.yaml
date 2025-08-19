@@ -66,3 +66,33 @@ cards:
       - "Exactly-once を実現するには、At-least-onceに加えて、受信側で重複排除の仕組みが必要"
     url:
       - "https://aws.amazon.com/blogs/compute/understanding-messaging-guarantees-in-event-driven-architectures/"
+
+  - id: dead-letter-queue
+    term:
+      ja: "デッドレターキュー (DLQ)"
+      en: "Dead Letter Queue (DLQ)"
+    definition: "処理に失敗したメッセージを転送し、隔離するための専用のキューです。"
+    explanation: "メッセージングシステムにおいて、コンシューマーが何らかの理由（バグ、データ破損、依存サービス障害など）でメッセージを正常に処理できない場合、メッセージがキューに溜まり続けたり、無限にリトライされたりする問題が発生します。デッドレターキューは、このような処理不能なメッセージをメインのキューから隔離するための仕組みです。処理失敗回数が閾値を超えたメッセージをDLQに転送することで、メインのキューの流れを止めずに、問題のメッセージを後から開発者が調査・分析・再処理することが可能になります。"
+    tags: [messaging, reliability, architecture]
+    notes:
+      - "正常なメッセージ処理の妨げになる「ポイズンピル」メッセージを隔離する"
+      - "障害調査やデバッグ、手動でのデータ復旧に役立つ"
+      - "DLQに転送されたメッセージには、アラートを設定して監視することが重要"
+      - "Amazon SQS, Google Cloud Pub/Sub, RabbitMQなど多くのメッセージングサービスがサポートしている"
+    url:
+      - "https://aws.amazon.com/sqs/features/dead-letter-queues/"
+
+  - id: gcp-pubsub
+    term:
+      ja: "Cloud Pub/Sub"
+      en: "Cloud Pub/Sub"
+    definition: "スケーラブルで信頼性の高い、Google Cloudの非同期メッセージングサービスです。"
+    explanation: "Cloud Pub/Subは、Publish/Subscribeモデルに基づいたメッセージングサービスで、アプリケーションやサービス間の疎結合な連携を可能にします。Publisherがトピックにメッセージを送信すると、そのトピックを購読している全てのSubscriberにメッセージが非同期で配信されます。大量のイベントデータの取り込み（ストリーミング分析）や、マイクロサービスの非同期連携、タスクのオフロードなどに広く利用されます。グローバルに展開されており、高いスループットと低レイテンシを実現します。"
+    tags: [gcp, messaging, pub-sub, architecture]
+    notes:
+      - "PushサブスクリプションとPullサブスクリプションの両方をサポート"
+      - "At-least-onceの配信保証を提供。Exactly-onceはDataflowなどと組み合わせることで実現可能。"
+      - "デッドレターキューやフィルタリング機能もサポートしている"
+      - "IAMと連携した詳細なアクセスコントロールが可能"
+    url:
+      - "https://cloud.google.com/pubsub"

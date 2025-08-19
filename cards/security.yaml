@@ -6,16 +6,33 @@ meta:
 cards:
   - id: rate-limit
     term:
-      ja: "レート制限"
+      ja: "レート制限 (Rate Limiting)"
       en: "Rate Limiting"
-    definition: "レート制限は、IP/ユーザーごとのQPSやトークンバケットで乱用防止する仕組みです。"
-    explanation: "レート制限は、特定のクライアントからのリクエスト数を一定期間内に制限する仕組みです。これにより、悪意のあるBotによる過剰なリクエストや、特定ユーザーのバグのあるコードによる負荷からAPIサーバーを保護します。一般的な実装方法として、リーキーバケットやトークンバケットアルゴリズムが用いられます。APIの安定稼働、リソースの公平な利用、DoS攻撃対策など、様々な目的で導入されます。"
-    tags: [security, api]
+    definition: "クライアントからのリクエスト頻度を制御し、システムの過負荷や乱用を防ぐための仕組みです。"
+    explanation: "レート制限は、APIサーバーなどを保護するための重要な技術です。主要なアルゴリズムには以下のようなものがあります.\n- Token Bucket: 一定のレートでトークンが補充されるバケツを用意し、リクエスト毎にトークンを消費します。トークンがあればリクエストを許可し、なければ拒否します。バースト性のあるリクエストに対応しやすいのが特徴です。\n- Leaky Bucket: リクエストをキューに入れ、一定のレートで処理します。キューが溢れると新しいリクエストは拒否されます。リクエストレートを平滑化する効果があります。\n- Fixed Window Counter: 固定された時間窓（例: 1分ごと）でリクエスト数をカウントし、上限を超えたら拒否します。実装が容易ですが、窓の境界でリクエストが集中する可能性があります。\n- Sliding Window Log/Counter: 直近のタイムスタンプを記録したり、複数の時間窓のカウンターを重み付けして計算することで、Fixed Windowの境界問題を緩和した、より公平な制限を実現します。"
+    tags: [security, api, architecture, reliability]
     notes:
-      - "HTTP 429 (Too Many Requests) ステータスコードを返すのが一般的"
-      - "リーキーバケットやトークンバケットなどのアルゴリズムが使われる"
-      - "APIの乱用防止、リソース保護、コスト最適化に貢献"
-      - "クライアント側にはリトライメカニズムの実装が推奨される"
+      - "Token Bucket: バーストトラフィックを許容するのに適している"
+      - "Leaky Bucket: 安定したアウトプットレートを保証するのに適している"
+      - "Sliding Window: 精度と実装コストのバランスが良い"
+      - "HTTP 429 (Too Many Requests) ステータスコードでクライアントに通知するのが一般的"
+    url:
+      - "https://cloud.google.com/architecture/rate-limiting-strategies-techniques"
+
+  - id: gcp-armor
+    term:
+      ja: "Cloud Armor"
+      en: "Cloud Armor"
+    definition: "Googleのグローバルネットワークのエッジで、DDoS攻撃やWebアプリケーションへの攻撃からシステムを保護するセキュリティサービスです。"
+    explanation: "Cloud Armorは、Googleが自社のサービス（Google検索、Gmailなど）を保護しているのと同じインフラストラクチャ上で動作するWAF（Web Application Firewall）およびDDoS対策サービスです。主にグローバル外部HTTP(S)ロードバランサと連携して使用します。IPアドレスや地域に基づいたアクセス制御、SQLインジェクションやクロスサイトスクリプティングなどのOWASP Top 10に挙げられる攻撃の検知・ブロック、カスタムルールの作成などが可能です。"
+    tags: [gcp, security, network, waf]
+    notes:
+      - "L3/L4 DDoS攻撃とL7アプリケーション攻撃の両方から保護する"
+      - "事前構成されたWAFルールと、カスタマイズ可能なセキュリティポリシー"
+      - "Adaptive Protection機能は、機械学習を用いて新たな脅威を自動的に検知・分析する"
+      - "Cloud LoggingやCloud Monitoringと統合され、詳細な可視性を提供する"
+    url:
+      - "https://cloud.google.com/armor"
 
   - id: waf
     term:

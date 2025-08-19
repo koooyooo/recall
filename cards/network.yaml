@@ -48,3 +48,35 @@ UDP (User Datagram Protocol) は、接続を確立せず、データを一方的
     url:
       - "https://en.wikipedia.org/wiki/Transmission_Control_Protocol"
       - "https://en.wikipedia.org/wiki/User_Datagram_Protocol"
+
+  - id: dns-round-robin
+    term:
+      ja: "DNSラウンドロビン"
+      en: "DNS Round Robin"
+    definition: "一つのドメイン名に対して複数のIPアドレスを登録し、問い合わせごとにその順番を循環させて応答することで、簡易的な負荷分散を行う仕組みです。"
+    explanation: "DNSラウンドロビンは、DNSの仕組みを利用した最もシンプルな負荷分散技術の一つです。クライアントからのDNSクエリに対し、登録されているIPアドレスのリストを順番に入れ替えながら応答します。これにより、異なるクライアントからのリクエストが異なるサーバーに振り分けられることが期待できます。特別なハードウェアが不要で低コストに実現できる反面、サーバーの障害を自動的に検知できない、均等に負荷が分散されるとは限らない、DNSキャッシュによる偏りが生じやすいといった欠点もあります。"
+    tags: [network, dns, load-balancing]
+    notes:
+      - "サーバーの死活監視を行わないため、障害のあるサーバーのIPアドレスも応答してしまう"
+      - "クライアント側のDNSキャッシュにより、負荷が偏る可能性がある"
+      - "セッション維持ができない"
+      - "本格的な負荷分散には専用のロードバランサーが推奨される"
+    url:
+      - "https://en.wikipedia.org/wiki/Round-robin_DNS"
+
+  - id: gcp-lb
+    term:
+      ja: "Cloud Load Balancing"
+      en: "Cloud Load Balancing"
+    definition: "Googleのグローバルネットワーク上で高性能・高可用な負荷分散を実現する、GCPのマネージドサービス群です。"
+    explanation: "Cloud Load Balancingは、単一のエニーキャストIPアドレスの背後で、世界中のリージョンにトラフィックを分散できるのが大きな特徴です。用途に応じて様々な種類のロードバランサーが提供されています。
+- グローバル外部HTTP(S)ロードバランサ: Webトラフィック向けのL7ロードバランサ。Cloud CDNやCloud Armorと連携可能。
+- リージョン外部/内部ロードバランサ: 特定リージョン内のトラフィックや、VPC内部の通信向けのL4/L7ロードバランサ。"
+    tags: [gcp, network, load-balancing, high-availability]
+    notes:
+      - "単一のエニーキャストIPアドレスでグローバルに負荷分散できるのが強み"
+      - "バックエンドサービスのヘルスチェック機能を持つ"
+      - "Cloud CDNと統合して、キャッシュされたコンテンツの配信を高速化できる"
+      - "Cloud Armorと統合して、DDoS攻撃やWeb攻撃からアプリケーションを保護できる"
+    url:
+      - "https://cloud.google.com/load-balancing"
