@@ -1,0 +1,112 @@
+meta:
+  deck:
+    ja: "GCP データベース"
+    en: "GCP Databases"
+  lang: "ja"
+cards:
+  - id: bigtable
+    term:
+      ja: "Cloud Bigtable"
+      en: "Cloud Bigtable"
+    definition: "Cloud Bigtableは、GCPのワイドカラムNoSQLです。"
+    explanation: "Cloud Bigtableは、Googleの内部的なNoSQLデータベースであるBigtableをベースにしたマネージドサービスです。ペタバイト級のデータを扱うことができ、一貫して高いスループットと低いレイテンシを提供します。行キー、列ファミリー、タイムスタンプの3次元でデータを管理する疎なテーブル構造が特徴で、分析や時系列データ、IoTのバックエンドなどに利用されます。LSM-Treeを基盤としており、書き込み性能に優れ、大規模なデータセットに対するリアルタイム分析や運用データストアとして活用されます。"
+    tags: [gcp, storage, nosql]
+    notes:
+      - "HBaseと互換性のあるAPIを提供"
+      - "単一行トランザクションのみサポート（複数行トランザクションは不可）"
+      - "JOINや二次索引の機能は持たないため、アプリケーション側で処理を実装する必要がある"
+      - "時系列データやIoTデータ、金融取引データなど、大量の書き込みと高速な読み取りが求められるユースケースに最適"
+    url:
+      - "https://cloud.google.com/bigtable"
+      - "https://github.com/googleapis/python-bigtable"
+
+  - id: firestore
+    term:
+      ja: "Firestore"
+      en: "Firestore"
+    definition: "Firestoreは、JSONドキュメント型NoSQLです。"
+    explanation: "Firestoreは、モバイルおよびWebアプリケーション開発者向けの柔軟でスケーラブルなNoSQLドキュメントデータベースです。リアルタイム同期機能を持ち、オフラインモードもサポートしているため、クライアント側での開発が容易になります。SQLライクな豊富なクエリが可能ですが、その分、大規模なデータセットに対するパフォーマンスはBigtableのような特化型DBに劣る場合があります。サーバーレスアプリケーションのバックエンドや、リアルタイム性の高い共同作業アプリケーションなどに適しています。"
+    tags: [gcp, storage, nosql]
+    notes:
+      - "旧来のFirebase Realtime Databaseの後継"
+      - "強力なセキュリティルールを定義可能（クライアントからの直接アクセス制御）"
+      - "コレクションとドキュメントの階層構造を持つ"
+      - "リアルタイムリスナーにより、データ変更を即座にクライアントに同期できる"
+    url:
+      - "https://cloud.google.com/firestore"
+      - "https://github.com/firebase/firebase-js-sdk"
+
+  - id: cloud-sql
+    term:
+      ja: "Cloud SQL"
+      en: "Cloud SQL"
+    definition: "Cloud SQLは、マネージドRDBです。"
+    explanation: "Cloud SQLは、MySQL, PostgreSQL, SQL Serverの完全マネージドなリレーショナルデータベースサービスです。バックアップ、レプリケーション、パッチ適用、自動フェイルオーバーなどの煩雑な管理タスクを自動化します。一般的なウェブアプリケーションやCMSのバックエンドとして広く利用されますが、書き込み性能は単一のプライマリインスタンスに律速されるため、大規模な書き込み負荷には限界があります。小規模から中規模のアプリケーションや、既存のリレーショナルデータベースからの移行に適しています。"
+    tags: [gcp, rdb]
+    notes:
+      - "リードレプリカで読み取りはスケール可能"
+      - "VPCネイティブでセキュアな接続"
+      - "自動バックアップ、ポイントインタイムリカバリをサポート"
+      - "高可用性構成（フェイルオーバー）も選択可能"
+    url:
+      - "https://cloud.google.com/sql"
+
+  - id: alloydb
+    term:
+      ja: "AlloyDB for PostgreSQL"
+      en: "AlloyDB for PostgreSQL"
+    definition: "AlloyDB for PostgreSQLは、Postgres互換の強化RDBです。"
+    explanation: "AlloyDBは、標準のPostgreSQLと比較して、特にトランザクション処理と分析クエリの両方で大幅な性能向上を実現したフルマネージドサービスです。ストレージ層がインテリジェントに分離されており、ログ処理を専用サービスにオフロードすることで書き込み効率を高めています。また、機械学習を活用したインメモリ列指向キャッシュにより、分析クエリを高速化します。PostgreSQLとの高い互換性を維持しつつ、エンタープライズワークロードに対応するスケーラビリティと信頼性を提供します。"
+    tags: [gcp, rdb, htap]
+    notes:
+      - "HTAP (Hybrid Transactional/Analytical Processing) を実現"
+      - "標準PostgreSQLからの移行が容易"
+      - "最大4倍のトランザクションスループットと、最大100倍の分析クエリ高速化を謳う"
+      - "ストレージとコンピューティングの分離アーキテクチャ"
+    url:
+      - "https://cloud.google.com/alloydb"
+
+  - id: spanner
+    term:
+      ja: "Cloud Spanner"
+      en: "Cloud Spanner"
+    definition: "Cloud Spannerは、NewSQL分散RDBです。"
+    explanation: "Cloud Spannerは、リレーショナルデータベースのスキーマとACIDトランザクションの利点と、NoSQLデータベースの水平スケーラビリティを両立させた、世界規模で分散可能なデータベースです。GoogleのTrueTime APIを利用して、地理的に分散したノード間でも外部整合性のあるトランザクションを保証します。金融サービスやグローバルなオンラインゲームなど、高い一貫性と可用性が求められるシステムに最適です。グローバルに分散されたデータでも、単一のデータベースとして扱えるのが最大の特徴です。"
+    tags: [gcp, rdb, distributed]
+    notes:
+      - "インターリーブテーブルで親子関係を物理的に近く配置し、JOIN性能を向上させる"
+      - "TrueTime APIにより、グローバルなトランザクションの一貫性を保証"
+      - "水平スケーラビリティと強整合性を両立するNewSQLデータベース"
+      - "ミッションクリティカルなワークロードに最適"
+    url:
+      - "https://cloud.google.com/spanner"
+
+  - id: bigquery
+    term:
+      ja: "BigQuery"
+      en: "BigQuery"
+    definition: "BigQueryは、サーバレスDWHです。"
+    explanation: "BigQueryは、ペタバイト規模のデータに対して超高速なSQLクエリを実行できる、フルマネージドのデータウェアハウスです。コンピューティングとストレージが分離したアーキテクチャを持ち、ユーザーはインフラ管理を意識することなく分析に集中できます。ストリーミング取り込みにも対応しており、リアルタイムなデータ分析基盤としても利用されます。データレイク、データウェアハウス、データマートの機能を統合し、ビジネスインテリジェgcp、分析、データウェアハウス、サーバレスンスや機械学習の基盤として活用されます。"
+    tags: [gcp, analytics]
+    notes:
+      - "カラムナストレージ形式を採用"
+      - "クエリはスキャンしたデータ量で課金される"
+      - "サーバレスでインフラ管理不要"
+      - "SQL標準に準拠したクエリ言語"
+    url:
+      - "https://cloud.google.com/bigquery"
+
+  - id: truetime
+    term:
+      ja: "TrueTime"
+      en: "TrueTime"
+    definition: "TrueTimeは、Spannerの誤差付き時計APIです。"
+    explanation: "TrueTimeは、Googleのデータセンターの原子時計とGPS受信機を利用して、全サーバーに高精度な時刻を提供するAPIです。単一の時刻ではなく、起こりうる誤差を含んだ時刻の範囲 `[earliest, latest]` を返します。Cloud Spannerは、この時刻の範囲を利用してトランザクションのタイムスタンプが重複しないことを保証し、それによってグローバルに一貫性のあるトランザクション順序を決定しています。これにより、地理的に分散した環境でも強整合性のあるトランザクションを実現しています。"
+    tags: [gcp, distributed]
+    notes:
+      - "「Commit Wait」という仕組みで、前のトランザクションの時刻範囲を確実に過ぎるまで待機する"
+      - "物理的な時間と論理的な時間を組み合わせたハイブリッド論理時計"
+      - "グローバルなトランザクションの一貫性を保証するSpannerの基盤技術"
+      - "原子時計とGPS受信機により、非常に高い精度で時刻同期を行う"
+    url:
+      - "https://research.google.com/pubs/pub45855/"
