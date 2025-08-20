@@ -43,7 +43,7 @@ cards:
       ja: "Single-Flight (Request Coalescing)"
       en: "Single-Flight (Request Coalescing)"
     definition: "Single-Flightは、同一キーの同時ミスを1回の下流呼び出しに合流しスパイクを抑える仕組みです。"
-        explanation: |
+    explanation: |
       Single-Flightは、同一キーの同時ミスを1回の下流呼び出しに合流しスパイクを抑える仕組みです。
       他の待機中のリクエストは、その代表者の結果を共有します。
       これにより、キャッシュが効かない状況（キャッシュのコールドスタート時や、人気アイテムのTTL切れ直後など）での

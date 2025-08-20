@@ -9,7 +9,7 @@ cards:
       ja: "Cloud Load Balancing"
       en: "Cloud Load Balancing"
     definition: "Googleのグローバルネットワーク上で高性能・高可用な負荷分散を実現する、GCPのマネージドサービス群です。"
-        explanation: |
+    explanation: |
       Cloud Load Balancingは、単一のエニーキャストIPアドレスの背後で、世界中のリージョンにトラフィックを分散できるのが大きな特徴です。
       用途に応じて様々な種類のロードバランサーが提供されています。
       - グローバル外部HTTP(S)ロードバランサ: Webトラフィック向けのL7ロードバランサ。Cloud CDNやCloud Armorと連携可能。
