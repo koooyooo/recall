@@ -1,4 +1,4 @@
-# SDI フラッシュカード
+# recall
 
 <img src="image/top.png" style="width: 60%; height: 60%">
 
